@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>160</y>
+      <y>130</y>
       <width>271</width>
       <height>31</height>
      </rect>
@@ -49,7 +49,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Койко-дней</string>
+          <string>Койко-дни</string>
          </property>
         </widget>
        </item>
@@ -72,9 +72,9 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>130</y>
-      <width>201</width>
+      <x>510</x>
+      <y>90</y>
+      <width>271</width>
       <height>31</height>
      </rect>
     </property>
@@ -106,13 +106,13 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>20</y>
-      <width>277</width>
-      <height>101</height>
+      <width>271</width>
+      <height>91</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
@@ -170,13 +170,13 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>230</y>
-      <width>231</width>
-      <height>59</height>
+      <y>180</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -200,19 +200,19 @@
         </font>
        </property>
        <property name="maxVisibleItems">
-        <number>6</number>
+        <number>10</number>
        </property>
       </widget>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>30</y>
-      <width>131</width>
-      <height>61</height>
+      <x>590</x>
+      <y>20</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -255,6 +255,71 @@
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>250</y>
+      <width>271</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item alignment="Qt::AlignHCenter">
+      <widget class="QLabel" name="label_op_name">
+       <property name="text">
+        <string>Название операции</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_op_names"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>330</y>
+      <width>271</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item alignment="Qt::AlignLeft">
+        <widget class="QLabel" name="label">
+         <property name="minimumSize">
+          <size>
+           <width>131</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Осложнение:</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignLeft">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>не указано</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_sequence">
+       <property name="text">
+        <string>Указать осложнение</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

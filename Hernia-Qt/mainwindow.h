@@ -6,6 +6,8 @@
 #include "rangeslider.h"
 #include <QSlider>
 #include "dateform.h"
+#include "sequenceform.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,9 +30,13 @@ private slots:
     void on_pushButton_to_clicked();
     void set_date_edit();
 
+    void on_pushButton_sequence_clicked();
+
 private:
     Ui::MainWindow *ui;
     DateForm* dateform;
+    SequenceForm* sequenceform;
+
 
     QToolBar* toolbar;
     RangeSlider* days_rSlider;

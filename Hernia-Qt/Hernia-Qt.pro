@@ -19,16 +19,19 @@ SOURCES += \
     dateform.cpp \
     main.cpp \
     mainwindow.cpp \
-    rangeslider.cpp
+    rangeslider.cpp \
+    sequenceform.cpp
 
 HEADERS += \
     dateform.h \
     mainwindow.h \
-    rangeslider.h
+    rangeslider.h \
+    sequenceform.h
 
 FORMS += \
     dateform.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    sequenceform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

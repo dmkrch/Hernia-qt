@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QPushButton>
+#include <QAbstractItemView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     dateform = new DateForm();
     dateform->setModal(true);
 
+    sequenceform = new SequenceForm();
+    sequenceform->setModal(true);
 
     // creating toolbar with 2 options: statistics and editing
     toolbar = addToolBar("tool bar");
@@ -51,13 +54,32 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dateform, SIGNAL(date_setted()), this, SLOT(set_date_edit()));
 
 
-    QStringList distros = {"Arch", "Xubuntu", "Redhat", "Debian",
-          "Mandriva", "Hello", "Hello world how are you?", "ok",
-          "asdfasfd", "asfdfhsgfsaf", "asfdgfhsrydhfhdg", "sagh"};
-
+    QStringList surgeons = {"----все хирурги----", "Кулага Сергей Алексеевич", "Кухта Андрей Викторович",
+                           "Карпович Вячеслав Евгеньевич", "Мещеня Антон Николаевич",
+                           "Лапковский Александр Александрович", "Щемелев Максим Юрьевич",
+                           "Бутома Николай Николаевич", "Изгачев Максим Павлович",
+                           "Панцевич Никита Юрьевич", "Толкин Юрий Олегович",
+                           "Пунько Алексей Николаевич"};
 
     ui->comboBox_surgeons->setStyleSheet("combobox-popup: 0;");
-    ui->comboBox_surgeons->addItems(distros);
+    ui->comboBox_surgeons->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->comboBox_surgeons->addItems(surgeons);
+
+
+    QStringList operations = {"----все операции----", "Постемпский", "Жиррару-Спасоккукоцкому", "Сапежко",
+                              "Мейо", "Напалков", "Полиспасными швами", "SUBLAY",
+                              "RIVES", "STOPPA", "RIVES-STOPPA-Wanz", "ONLAY",
+                              "Novitsky", "TAR-technique", "Carbonelli", "Ramirez",
+                              "IPOM", "IPOM+", "МILOS", "E MILOS", "E TEP"};
+
+    ui->comboBox_op_names->setStyleSheet("combobox-popup: 0;");
+    ui->comboBox_op_names->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->comboBox_op_names->addItems(operations);
+
+//    QStringList sequences = {"----любое осложнение----", "", ""};
+//    ui->comboBox_sequences->setStyleSheet("combobox-popup: 0;");
+//    ui->comboBox_op_names->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+//    ui->comboBox_op_names->addItems(sequences);
 }
 
 
@@ -116,4 +138,8 @@ void MainWindow::set_date_edit()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+void MainWindow::on_pushButton_sequence_clicked()
+{
+    sequenceform->show();
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SequenceForm</class>
+ <widget class="QDialog" name="SequenceForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>386</width>
+    <height>181</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Тип осложнения</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_seq_type"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Название осложнения</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_seq_name"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>366</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Выбрать</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
