@@ -15,6 +15,11 @@ public:
     explicit PVentralHerniaForm(QWidget *parent = nullptr);
     ~PVentralHerniaForm();
 
+private slots:
+    void set_diagnosis_ventral_type(QString ventral_type);
+
+    void on_pushButton_choose_clicked();
+
 private:
     Ui::PVentralHerniaForm *ui;
 };

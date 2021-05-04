@@ -8,6 +8,8 @@
 #include "dateform.h"
 #include "sequenceform.h"
 #include "inguinalherniaform.h"
+#include "pventralherniaform.h"
+#include "postventralherniaform.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -32,13 +34,15 @@ private slots:
     void set_date_edit();
     void on_pushButton_sequence_clicked();
     void set_diagnosis(QString diagnosis_type);
+    void sequela_form_closed();
 
 private:
     Ui::MainWindow *ui;
     DateForm* dateform;
     SequenceForm* sequenceform;
     InguinalHerniaForm* inguinalHerniaform;
-
+    PVentralHerniaForm* pventralHerniaform;
+    PostVentralHerniaForm* postVentralHerniaform;
 
     QToolBar* toolbar;
     RangeSlider* days_rSlider;

@@ -10,6 +10,8 @@ class SequenceForm;
 class SequenceForm : public QDialog
 {
     Q_OBJECT
+signals:
+    void form_was_closed();
 
 public:
     explicit SequenceForm(QWidget *parent = nullptr);

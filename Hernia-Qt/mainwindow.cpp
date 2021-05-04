@@ -22,6 +22,15 @@ MainWindow::MainWindow(QWidget *parent)
     inguinalHerniaform = new InguinalHerniaForm();
     inguinalHerniaform->setModal(true);
 
+    // pventralHerniaForm setup
+    pventralHerniaform = new PVentralHerniaForm();
+    pventralHerniaform->setModal(true);
+
+    // post ventral hernia form setup
+    postVentralHerniaform = new PostVentralHerniaForm();
+    postVentralHerniaform->setModal(true);
+
+
 
     // creating toolbar with 2 options: statistics and editing
     toolbar = addToolBar("tool bar");
@@ -29,10 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     toolbar->addSeparator();
     QAction* editing_tool = toolbar->addAction("Редактирование");
 
-
     // connecting slots to signals of toolbar
     connect(statistics_tool, &QAction::triggered, qApp, &QApplication::quit); // here i need to set showing statistics form
     connect(editing_tool, &QAction::triggered, qApp, &QApplication::quit); // here i need to set showing editing form
+
+
 
     // creating slider for days
     days_rSlider = new RangeSlider(Qt::Horizontal, RangeSlider::Option::DoubleHandles, this);
@@ -41,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     // creating slider for age
     age_rSlider = new RangeSlider(Qt::Horizontal, RangeSlider::Option::DoubleHandles, this);
     ui->verticalLayout_8->addWidget(age_rSlider);
-
 
     // connecting lower value change of date range slider
     connect(days_rSlider, &RangeSlider::lowerValueChanged,
@@ -62,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dateform, SIGNAL(date_setted()), this, SLOT(set_date_edit()));
 
 
+    // adding surgeons
     QStringList surgeons = {"----все хирурги----", "Кулага Сергей Алексеевич", "Кухта Андрей Викторович",
                            "Карпович Вячеслав Евгеньевич", "Мещеня Антон Николаевич",
                            "Лапковский Александр Александрович", "Щемелев Максим Юрьевич",
@@ -74,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_surgeons->addItems(surgeons);
 
 
+    // adding operations
     QStringList operations = {"----все операции----", "Постемпский", "Жиррару-Спасоккукоцкому", "Сапежко",
                               "Мейо", "Напалков", "Полиспасными швами", "SUBLAY",
                               "RIVES", "STOPPA", "RIVES-STOPPA-Wanz", "ONLAY",
@@ -85,15 +96,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_op_names->addItems(operations);
 
 
+    // adding diagnosises
     QStringList diagnosises = {"----все диагнозы----","паховая грыжа", "первичная вентральная грыжа",
                                "послеоперационная вентральная грыжа"};
-
 
     ui->comboBox_diagnosis->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_diagnosis->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->comboBox_diagnosis->addItems(diagnosises);
 
     connect(ui->comboBox_diagnosis, &QComboBox::currentTextChanged, this, &MainWindow::set_diagnosis);
+
+
+
+    // connecting sequela form closed
+    connect(sequenceform, &SequenceForm::form_was_closed, this, &MainWindow::sequela_form_closed);
+
+
+    // connecting diagnosis form closed
+
 }
 
 
@@ -152,9 +172,14 @@ void MainWindow::set_diagnosis(QString diagnosis_type)
     if (diagnosis_type == "паховая грыжа")
         inguinalHerniaform->show();
     else if (diagnosis_type == "первичная вентральная грыжа")
-        ;
+        pventralHerniaform->show();
     else if (diagnosis_type == "послеоперационная вентральная грыжа")
-        ;
+        postVentralHerniaform->show();
+}
+
+void MainWindow::sequela_form_closed()
+{
+
 }
 
 

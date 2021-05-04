@@ -20,6 +20,7 @@ SOURCES += \
     inguinalherniaform.cpp \
     main.cpp \
     mainwindow.cpp \
+    postventralherniaform.cpp \
     pventralherniaform.cpp \
     rangeslider.cpp \
     sequenceform.cpp
@@ -28,6 +29,7 @@ HEADERS += \
     dateform.h \
     inguinalherniaform.h \
     mainwindow.h \
+    postventralherniaform.h \
     pventralherniaform.h \
     rangeslider.h \
     sequenceform.h
@@ -36,6 +38,7 @@ FORMS += \
     dateform.ui \
     inguinalherniaform.ui \
     mainwindow.ui \
+    postventralherniaform.ui \
     pventralherniaform.ui \
     sequenceform.ui
 
@@ -43,3 +46,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
