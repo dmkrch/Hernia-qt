@@ -7,6 +7,7 @@
 #include <QSlider>
 #include "dateform.h"
 #include "sequenceform.h"
+#include "inguinalherniaform.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -29,13 +30,14 @@ private slots:
     void on_pushButton_from_clicked();
     void on_pushButton_to_clicked();
     void set_date_edit();
-
     void on_pushButton_sequence_clicked();
+    void set_diagnosis(QString diagnosis_type);
 
 private:
     Ui::MainWindow *ui;
     DateForm* dateform;
     SequenceForm* sequenceform;
+    InguinalHerniaForm* inguinalHerniaform;
 
 
     QToolBar* toolbar;

@@ -10,7 +10,8 @@ class RangeSlider : public QWidget
     Q_ENUMS(RangeSliderTypes)
 
 public:
-    enum Option {
+    enum Option
+    {
         NoHandle = 0x0,
         LeftHandle = 0x1,
         RightHandle = 0x2,

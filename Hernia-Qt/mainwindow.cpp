@@ -9,11 +9,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // some settings with forms
     ui->setupUi(this);
+
+    // dateform setup
     dateform = new DateForm();
     dateform->setModal(true);
 
+    // sequenceform setup
     sequenceform = new SequenceForm();
     sequenceform->setModal(true);
+
+    // inguinanform setup
+    inguinalHerniaform = new InguinalHerniaForm();
+    inguinalHerniaform->setModal(true);
+
 
     // creating toolbar with 2 options: statistics and editing
     toolbar = addToolBar("tool bar");
@@ -76,10 +84,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_op_names->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->comboBox_op_names->addItems(operations);
 
-//    QStringList sequences = {"----любое осложнение----", "", ""};
-//    ui->comboBox_sequences->setStyleSheet("combobox-popup: 0;");
-//    ui->comboBox_op_names->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-//    ui->comboBox_op_names->addItems(sequences);
+
+    QStringList diagnosises = {"----все диагнозы----","паховая грыжа", "первичная вентральная грыжа",
+                               "послеоперационная вентральная грыжа"};
+
+
+    ui->comboBox_diagnosis->setStyleSheet("combobox-popup: 0;");
+    ui->comboBox_diagnosis->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->comboBox_diagnosis->addItems(diagnosises);
+
+    connect(ui->comboBox_diagnosis, &QComboBox::currentTextChanged, this, &MainWindow::set_diagnosis);
 }
 
 
@@ -132,6 +146,17 @@ void MainWindow::set_date_edit()
     else
         ui->dateEdit_to->setDate(date);
 }
+
+void MainWindow::set_diagnosis(QString diagnosis_type)
+{
+    if (diagnosis_type == "паховая грыжа")
+        inguinalHerniaform->show();
+    else if (diagnosis_type == "первичная вентральная грыжа")
+        ;
+    else if (diagnosis_type == "послеоперационная вентральная грыжа")
+        ;
+}
+
 
 // -------------------------------------------------
 

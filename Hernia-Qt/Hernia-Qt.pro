@@ -17,20 +17,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     dateform.cpp \
+    inguinalherniaform.cpp \
     main.cpp \
     mainwindow.cpp \
+    pventralherniaform.cpp \
     rangeslider.cpp \
     sequenceform.cpp
 
 HEADERS += \
     dateform.h \
+    inguinalherniaform.h \
     mainwindow.h \
+    pventralherniaform.h \
     rangeslider.h \
     sequenceform.h
 
 FORMS += \
     dateform.ui \
+    inguinalherniaform.ui \
     mainwindow.ui \
+    pventralherniaform.ui \
     sequenceform.ui
 
 # Default rules for deployment.
