@@ -105,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_diagnosis->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->comboBox_diagnosis->addItems(diagnosises);
 
-    connect(ui->comboBox_diagnosis, &QComboBox::currentTextChanged, this, &MainWindow::set_diagnosis);
+    connect(ui->comboBox_diagnosis, &QComboBox::currentTextChanged, this, &MainWindow::open_diagnosis_form);
 
 
 
@@ -114,7 +114,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // connecting diagnosis form closed
-
 }
 
 
@@ -123,13 +122,13 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::slider_date_lower_value_changed()
 {
     int date_from = days_rSlider->GetLowerValue();
-    ui->label_date_from->setText(QString::number(date_from));
+    ui->label_days_from->setText(QString::number(date_from));
 }
 
 void MainWindow::slider_date_upper_value_changed()
 {
     int date_to = days_rSlider->GetUpperValue();
-    ui->label_date_to->setText(QString::number(date_to));
+    ui->label_days_to->setText(QString::number(date_to));
 }
 
 void MainWindow::slider_age_lower_value_changed()
@@ -168,7 +167,7 @@ void MainWindow::set_date_edit()
         ui->dateEdit_to->setDate(date);
 }
 
-void MainWindow::set_diagnosis(QString diagnosis_type)
+void MainWindow::open_diagnosis_form(QString diagnosis_type)
 {
     if (diagnosis_type == "паховая грыжа")
         inguinalHerniaform->show();
@@ -193,4 +192,50 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_sequence_clicked()
 {
     sequenceform->show();
+}
+
+
+void MainWindow::on_pushButton_search_op_clicked()
+{
+    // date
+    QDate date_from = ui->dateEdit_from->date();
+    QDate date_to = ui->dateEdit_to->date();
+
+    // title of operation
+    QString op_title = ui->comboBox_op_names->currentText();
+
+    // name of surgeon
+    QString surgeon_name = ui->comboBox_surgeons->currentText();
+
+    // sequence already setted in mainform->sequenceform
+
+    // recovering days
+    int days_from = ui->label_days_from->text().toInt();
+    int days_to = ui->label_days_to->text().toInt();
+
+    // gender
+    Gender g;
+
+    if (ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
+        g = Gender::MALE;
+    else if (!ui->checkBox_male->isChecked() && ui->checkBox_female->isChecked())
+        g = Gender::FEMALE;
+    else if (ui->checkBox_male->isChecked() && ui->checkBox_female->isChecked())
+        g = Gender::ANY_MALE;
+//    else if (!ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
+//        qDebug >> "exception";
+
+    // age of patient
+    int age_from = ui->label_age_from->text().toInt();
+    int age_to = ui->label_age_to->text().toInt();
+
+    // diagnosis already setted in mainwindow->diagnosis
+
+
+//    ui->listWidget_output->addItem(date_from.toString());
+//    ui->listWidget_output->addItem(date_to.toString());
+//    ui->listWidget_output->addItem(op_title);
+//    ui->listWidget_output->addItem(surgeon_name);
+//    ui->listWidget_output->addItem(QString::number(days_from));
+//    ui->listWidget_output->addItem(QString::number(days_to));
 }

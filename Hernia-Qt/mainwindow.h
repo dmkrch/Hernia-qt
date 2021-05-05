@@ -10,6 +10,8 @@
 #include "inguinalherniaform.h"
 #include "pventralherniaform.h"
 #include "postventralherniaform.h"
+#include "classes_model/handled_operation.h"
+#include "classes_model/operation_to_find_model.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -33,10 +35,12 @@ private slots:
     void on_pushButton_to_clicked();
     void set_date_edit();
     void on_pushButton_sequence_clicked();
-    void set_diagnosis(QString diagnosis_type);
+    void open_diagnosis_form(QString diagnosis_type);
     void sequela_form_closed();
+    void on_pushButton_search_op_clicked();
 
 private:
+    //forms
     Ui::MainWindow *ui;
     DateForm* dateform;
     SequenceForm* sequenceform;
@@ -44,10 +48,18 @@ private:
     PVentralHerniaForm* pventralHerniaform;
     PostVentralHerniaForm* postVentralHerniaform;
 
+    // widgets
     QToolBar* toolbar;
     RangeSlider* days_rSlider;
     RangeSlider* age_rSlider;
     QSlider* slider;
+
+    // classes models
+    Handled_Operation* new_handled_operation;
+    Operation_To_Find_Model* operation_to_find;
+
+
+
 
     bool is_date_from_pressed;
 };

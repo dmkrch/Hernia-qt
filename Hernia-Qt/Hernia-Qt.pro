@@ -16,6 +16,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    classes_model/diagnosis.cpp \
+    classes_model/handled_operation.cpp \
+    classes_model/patient.cpp \
+    classes_model/sequela.cpp \
     dateform.cpp \
     inguinalherniaform.cpp \
     main.cpp \
@@ -26,6 +30,11 @@ SOURCES += \
     sequenceform.cpp
 
 HEADERS += \
+    classes_model/diagnosis.h \
+    classes_model/handled_operation.h \
+    classes_model/operation_to_find_model.h \
+    classes_model/patient.h \
+    classes_model/sequela.h \
     dateform.h \
     inguinalherniaform.h \
     mainwindow.h \

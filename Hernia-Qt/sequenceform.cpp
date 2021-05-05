@@ -51,3 +51,4 @@ void SequenceForm::on_pushButton_clicked()
     emit form_was_closed();
     this->close();
 }
+
