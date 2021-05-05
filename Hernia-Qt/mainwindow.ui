@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>575</height>
+    <width>698</width>
+    <height>627</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+    <italic>false</italic>
+   </font>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -17,418 +23,614 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_11">
+   <layout class="QVBoxLayout" name="verticalLayout_16">
     <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="horizontalSpacing">
-       <number>0</number>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+       </font>
       </property>
-      <property name="verticalSpacing">
-       <number>20</number>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
       </property>
-      <item row="4" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_op_name">
-          <property name="text">
-           <string>Название операции</string>
+      <property name="tabShape">
+       <enum>QTabWidget::Triangular</enum>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Статистика</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="verticalSpacing">
+           <number>20</number>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBox_op_names"/>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_7">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="minimumSize">
+          <item row="0" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_gender">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <italic>false</italic>
+               </font>
+              </property>
+              <property name="text">
+               <string>Пол пациента</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item alignment="Qt::AlignRight">
+               <widget class="QCheckBox" name="checkBox_male">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>М</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QCheckBox" name="checkBox_female">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Ж</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetDefaultConstraint</enum>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Диагноз:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QLabel" name="label_diagnosis">
+                <property name="text">
+                 <string>не указано</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_diagnosis"/>
+            </item>
+           </layout>
+          </item>
+          <item row="7" column="0" colspan="3">
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+                <italic>false</italic>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Поиск</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Найдено операций:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>13</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="minimumSize">
+                 <size>
+                  <width>131</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Осложнение:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QLabel" name="label_sequence">
+                <property name="text">
+                 <string>не указано</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_sequence">
+              <property name="text">
+               <string>Указать осложнение</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_op_name">
+              <property name="text">
+               <string>Название операции</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_op_names"/>
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="1">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
              <size>
-              <width>131</width>
-              <height>26</height>
+              <width>20</width>
+              <height>30</height>
              </size>
             </property>
-            <property name="text">
-             <string>Осложнение:</string>
-            </property>
-           </widget>
+           </spacer>
           </item>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label_sequence">
-            <property name="text">
-             <string>не указано</string>
+          <item row="5" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>10</number>
             </property>
-           </widget>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QLabel" name="label_date_from">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QLabel" name="label_rec_days">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Койко-дни</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_date_to">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>false</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>100</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_sequence">
-          <property name="text">
-           <string>Указать осложнение</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="label_age_from">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
+          <item row="1" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QLabel" name="label_age_from">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_age">
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Возраст пациента</string>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_age_to">
+                <property name="text">
+                 <string>100</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
-          <item>
-           <widget class="QLabel" name="label_age">
-            <property name="autoFillBackground">
-             <bool>false</bool>
+          <item row="2" column="1">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="text">
-             <string>Возраст пациента</string>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="scaledContents">
-             <bool>false</bool>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>160</width>
+              <height>20</height>
+             </size>
             </property>
-           </widget>
+           </spacer>
           </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_age_to">
-            <property name="text">
-             <string>100</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0" colspan="3">
-       <layout class="QVBoxLayout" name="verticalLayout_10">
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Поиск</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>13</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Найдено операций:</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <family>Ubuntu</family>
-              <pointsize>13</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="1">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label_date_from">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_rec_days">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Койко-дни</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_date_to">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>100</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_surgeon">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Врач-хирург</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBox_surgeons">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="maxVisibleItems">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_gender">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Пол пациента</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item alignment="Qt::AlignRight">
-           <widget class="QCheckBox" name="checkBox_male">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>М</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QCheckBox" name="checkBox_female">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Ж</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label_date">
-          <property name="font">
-           <font>
-            <family>Ubuntu</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Дата проведения операции</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
+          <item row="3" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
             <property name="spacing">
              <number>6</number>
             </property>
-            <item>
-             <widget class="QDateEdit" name="dateEdit_from">
-              <property name="locale">
-               <locale language="Russian" country="Belarus"/>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_surgeon">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <italic>false</italic>
+               </font>
+              </property>
+              <property name="text">
+               <string>Врач-хирург</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QDateEdit" name="dateEdit_to"/>
+             <widget class="QComboBox" name="comboBox_surgeons">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+                <italic>false</italic>
+               </font>
+              </property>
+              <property name="maxVisibleItems">
+               <number>10</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="pushButton_from">
+          <item row="0" column="0" rowspan="2">
+           <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_date">
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+                <pointsize>11</pointsize>
+                <italic>false</italic>
+               </font>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
               <property name="text">
-               <string>с</string>
+               <string>Дата проведения операции</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_to">
-              <property name="text">
-               <string>по</string>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="spacing">
+                 <number>6</number>
+                </property>
+                <item>
+                 <widget class="QDateEdit" name="dateEdit_from">
+                  <property name="locale">
+                   <locale language="Russian" country="Belarus"/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDateEdit" name="dateEdit_to"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="pushButton_from">
+                  <property name="text">
+                   <string>с</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_to">
+                  <property name="text">
+                   <string>по</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
          </layout>
         </item>
        </layout>
-      </item>
-      <item row="6" column="0">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      </widget>
+      <widget class="QWidget" name="tab_6">
+       <attribute name="title">
+        <string>Редактирование</string>
+       </attribute>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>260</y>
+          <width>258</width>
+          <height>217</height>
+         </rect>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
+        <layout class="QVBoxLayout" name="verticalLayout_19">
+         <item alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="label_7">
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Проведенные операции</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_2"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>330</y>
+          <width>109</width>
+          <height>95</height>
+         </rect>
         </property>
-       </spacer>
-      </item>
-      <item row="2" column="2">
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <property name="sizeConstraint">
-           <enum>QLayout::SetDefaultConstraint</enum>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Диагноз:</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignLeft">
-           <widget class="QLabel" name="label_diagnosis">
-            <property name="text">
-             <string>не указано</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBox_diagnosis"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
+        <layout class="QVBoxLayout" name="verticalLayout_20">
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>добавить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>удалить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_4">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>просмотреть</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>31</y>
+          <width>258</width>
+          <height>217</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_18">
+         <item alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="label_6">
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Хирурги</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>110</y>
+          <width>101</width>
+          <height>62</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_17">
+         <item>
+          <widget class="QPushButton" name="pushButton_add_surgeon">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>добавить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_delete_surgeon">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>удалить</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -437,8 +639,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>641</width>
-     <height>22</height>
+     <width>698</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>

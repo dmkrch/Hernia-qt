@@ -34,9 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // creating toolbar with 2 options: statistics and editing
     toolbar = addToolBar("tool bar");
-    QAction* statistics_tool = toolbar->addAction("Статистика");
+    QAction* statistics_tool = toolbar->addAction("О программе");
     toolbar->addSeparator();
-    QAction* editing_tool = toolbar->addAction("Редактирование");
+    QAction* editing_tool = toolbar->addAction("Выход");
+
 
     // connecting slots to signals of toolbar
     connect(statistics_tool, &QAction::triggered, qApp, &QApplication::quit); // here i need to set showing statistics form
