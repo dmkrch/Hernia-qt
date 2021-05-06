@@ -2,6 +2,7 @@
 #define SEQUENCEFORM_H
 
 #include <QDialog>
+#include "classes_model/sequela.h"
 
 namespace Ui {
 class SequenceForm;
@@ -15,15 +16,15 @@ signals:
 
 public:
     explicit SequenceForm(QWidget *parent = nullptr);
-    enum class SequelaType { ANY_SEQ_TYPE, POSTOP_SEQ, INTROP_SEQ };
+    Sequela* Get_Sequela() { return sequela; }
     ~SequenceForm();
 
 private slots:
-    void set_seq_names(QString seq_type);
-
+    void set_seq_type(QString seq_type);
     void on_pushButton_clicked();
 
 private:
+    Sequela* sequela;
     Ui::SequenceForm *ui;
 };
 

@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     sequenceform = new SequenceForm();
     sequenceform->setModal(true);
 
-    // inguinanform setup
+    // inguinalform setup
     inguinalHerniaform = new InguinalHerniaForm();
     inguinalHerniaform->setModal(true);
 
@@ -108,12 +108,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->comboBox_diagnosis, &QComboBox::currentTextChanged, this, &MainWindow::open_diagnosis_form);
 
 
-
     // connecting sequela form closed
     connect(sequenceform, &SequenceForm::form_was_closed, this, &MainWindow::sequela_form_closed);
 
 
     // connecting diagnosis form closed
+    connect(inguinalHerniaform, &InguinalHerniaForm::form_was_closed, this,
+            &MainWindow::inguinal_form_closed);
+
+    this->operation_to_find = new Operation_To_Find_Model();
 }
 
 
@@ -170,16 +173,38 @@ void MainWindow::set_date_edit()
 void MainWindow::open_diagnosis_form(QString diagnosis_type)
 {
     if (diagnosis_type == "паховая грыжа")
+    {
         inguinalHerniaform->show();
+    }
     else if (diagnosis_type == "первичная вентральная грыжа")
+    {
         pventralHerniaform->show();
+    }
     else if (diagnosis_type == "послеоперационная вентральная грыжа")
+    {
         postVentralHerniaform->show();
+    }
 }
 
 void MainWindow::sequela_form_closed()
 {
+    operation_to_find->sequela = sequenceform->Get_Sequela();
 
+    QString type = operation_to_find->sequela->Get_Type();
+    QString title = operation_to_find->sequela->Get_Title();
+
+    if (title != "")
+        ui->label_sequence->setText("Осложнение: " + title);
+    else
+        ui->label_sequence->setText("Осложнение: " + type);
+}
+
+void MainWindow::inguinal_form_closed()
+{
+    operation_to_find->diagnosis = inguinalHerniaform->Get_Hernia();
+
+    QString result = this->operation_to_find->diagnosis->Get_String();
+    ui->label_diagnosis->setText("Диагноз: " + result);
 }
 
 
@@ -238,4 +263,5 @@ void MainWindow::on_pushButton_search_op_clicked()
 //    ui->listWidget_output->addItem(surgeon_name);
 //    ui->listWidget_output->addItem(QString::number(days_from));
 //    ui->listWidget_output->addItem(QString::number(days_to));
+//    ui->listWidget_output->addItem(operation_to_find->sequela->Get_Type() + operation_to_find->sequela->Get_Title());
 }

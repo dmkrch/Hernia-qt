@@ -37,6 +37,7 @@ private slots:
     void on_pushButton_sequence_clicked();
     void open_diagnosis_form(QString diagnosis_type);
     void sequela_form_closed();
+    void inguinal_form_closed();
     void on_pushButton_search_op_clicked();
 
 private:
@@ -57,9 +58,7 @@ private:
     // classes models
     Handled_Operation* new_handled_operation;
     Operation_To_Find_Model* operation_to_find;
-
-
-
+    Diagnosis* diagnosis;
 
     bool is_date_from_pressed;
 };

@@ -16,6 +16,12 @@ public:
             gender(g), age_from(af), age_to(at),
             date(dat), surgeon_name(sn), operation_title(op_title), 
             recovering_days_from(rec_df), recovering_days_to(rec_dt) {}
+
+    Operation_To_Find_Model()
+    {
+        diagnosis = NULL;
+        sequela = NULL;
+    }
             
 
     Gender gender;
