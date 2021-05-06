@@ -27,17 +27,8 @@ enum Inguinal_Hernia_SIZE { ANY_INGUINAL_SIZE, S1, S2, S3, S4, S5 };
 class Inguinal_Hernia : public Diagnosis
 {
 public:
-    Inguinal_Hernia() {}
-    Inguinal_Hernia(QString title, Inguinal_Hernia_PR pr, Inguinal_Hernia_LMF lmf, Inguinal_Hernia_SIZE size) : Diagnosis(title)
-    {
-
-        this->pr = pr;
-        this->lmf = lmf;
-        this->size = size;
-    }
-
-
     Inguinal_Hernia(QString t);
+
     Inguinal_Hernia_LMF Get_LMF() { return lmf; }
     Inguinal_Hernia_PR Get_PR() { return pr; }
     Inguinal_Hernia_SIZE Get_Size() { return size; }
@@ -72,23 +63,35 @@ private:
 
 
 
-//enum Postoperative_Ventral_Hernia_M { ANY_M, M1, M2, M3, M4, M5 };
-//enum Postoperative_Ventral_Hernia_L { ANY_L, L1, L2, L3, L4 };
-//enum Postoperative_Ventral_Hernia_W { ANY_W, W1, W2, W3 };
-//enum Postoperative_Ventral_Hernia_R { ANY_R, R1, R2, R3, R4 };
+enum Postoperative_Ventral_Hernia_M { ANY_M, M1, M2, M3, M4, M5 };
+enum Postoperative_Ventral_Hernia_L { ANY_L, L1, L2, L3, L4 };
+enum Postoperative_Ventral_Hernia_W { ANY_W, W1, W2, W3 };
+enum Postoperative_Ventral_Hernia_R { ANY_R, R1, R2, R3, R4 };
 
 
-///* 3rd type of hernia: post operative ventral hernia */
-//class Postoperative_Ventral_Hernia : public Diagnosis
-//{
-//public:
-//    Postoperative_Ventral_Hernia(std::string t);
-//private:
-//    Postoperative_Ventral_Hernia_M m;
-//    Postoperative_Ventral_Hernia_L l;
-//    Postoperative_Ventral_Hernia_W w;
-//    Postoperative_Ventral_Hernia_R r;
-//};
+/* 3rd type of hernia: post operative ventral hernia */
+class Postoperative_Ventral_Hernia : public Diagnosis
+{
+public:
+    Postoperative_Ventral_Hernia(QString title);
+
+    Postoperative_Ventral_Hernia_M Get_M() { return m; }
+    Postoperative_Ventral_Hernia_L Get_L() { return l; }
+    Postoperative_Ventral_Hernia_W Get_W() { return w; }
+    Postoperative_Ventral_Hernia_R Get_R() { return r; }
+
+    void Set_M(Postoperative_Ventral_Hernia_M m1) { m = m1; }
+    void Set_L(Postoperative_Ventral_Hernia_L l1) { l = l1; }
+    void Set_W(Postoperative_Ventral_Hernia_W w1) { w = w1; }
+    void Set_R(Postoperative_Ventral_Hernia_R r1) { r = r1; }
+
+    QString Get_String() override;
+private:
+    Postoperative_Ventral_Hernia_M m;
+    Postoperative_Ventral_Hernia_L l;
+    Postoperative_Ventral_Hernia_W w;
+    Postoperative_Ventral_Hernia_R r;
+};
 
 
 

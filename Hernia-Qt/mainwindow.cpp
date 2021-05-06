@@ -112,9 +112,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sequenceform, &SequenceForm::form_was_closed, this, &MainWindow::sequela_form_closed);
 
 
-    // connecting diagnosis form closed
+    // connecting inguinal form closed
     connect(inguinalHerniaform, &InguinalHerniaForm::form_was_closed, this,
             &MainWindow::inguinal_form_closed);
+
+    // connecting postoperative ventral form closed
+    connect(postVentralHerniaform, &PostVentralHerniaForm::form_was_closed, this,
+            &MainWindow::post_ventral_form_closed);
 
     this->operation_to_find = new Operation_To_Find_Model();
 }
@@ -202,6 +206,14 @@ void MainWindow::sequela_form_closed()
 void MainWindow::inguinal_form_closed()
 {
     operation_to_find->diagnosis = inguinalHerniaform->Get_Hernia();
+
+    QString result = this->operation_to_find->diagnosis->Get_String();
+    ui->label_diagnosis->setText("Диагноз: " + result);
+}
+
+void MainWindow::post_ventral_form_closed()
+{
+    operation_to_find->diagnosis = postVentralHerniaform->Get_Hernia();
 
     QString result = this->operation_to_find->diagnosis->Get_String();
     ui->label_diagnosis->setText("Диагноз: " + result);

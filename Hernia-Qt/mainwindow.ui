@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>698</width>
-    <height>627</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="font">
@@ -167,7 +167,7 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Диагноз:</string>
+                 <string>Диагноз: не указано</string>
                 </property>
                </widget>
               </item>

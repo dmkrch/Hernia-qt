@@ -2,6 +2,8 @@
 #define POSTVENTRALHERNIAFORM_H
 
 #include <QDialog>
+#include "classes_model/diagnosis.h"
+
 
 namespace Ui {
 class PostVentralHerniaForm;
@@ -13,13 +15,18 @@ class PostVentralHerniaForm : public QDialog
 
 public:
     explicit PostVentralHerniaForm(QWidget *parent = nullptr);
+    Postoperative_Ventral_Hernia* Get_Hernia() { return postop_hernia;}
+
     ~PostVentralHerniaForm();
+signals:
+    void form_was_closed();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_choose_op_clicked();
 
 private:
     Ui::PostVentralHerniaForm *ui;
+    Postoperative_Ventral_Hernia* postop_hernia;
 };
 
 #endif // POSTVENTRALHERNIAFORM_H
