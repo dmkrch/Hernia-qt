@@ -22,8 +22,9 @@ Postoperative_Ventral_Hernia::Postoperative_Ventral_Hernia(QString t) : Diagnosi
 
 Primary_Ventral_Hernia::Primary_Ventral_Hernia(QString t) : Diagnosis(t)
 {
-    this->size = Primary_Ventral_Hernia_Sizes::ANY_PRIMARY_VENTRAL_SIZE;
-//    this->
+    this->type = Primary_Ventral_Hernia_Types::TYPE_NOT_CHOSEN;
+    this->subtitle = Primary_Ventral_Hernia_SubTypes::SUBTYPE_NOT_CHOSEN;
+    this->size = Primary_Ventral_Hernia_Sizes::SIZE_NOT_CHOSEN;
 }
 
 
@@ -196,5 +197,72 @@ QString Primary_Ventral_Hernia::Get_String()
 {
     QString result;
 
-    return result;
+    if (this->Get_Size() != Primary_Ventral_Hernia_Sizes::SIZE_NOT_CHOSEN)
+    {
+        switch(this->Get_Size())
+        {
+        case Primary_Ventral_Hernia_Sizes::ANY_PRIMARY_VENTRAL_SIZE:
+            result += "любой размер";
+            break;
+        case Primary_Ventral_Hernia_Sizes::SMALL:
+            result += "малая";
+            break;
+        case Primary_Ventral_Hernia_Sizes::MEDIUM:
+            result += "средняя";
+            break;
+        case Primary_Ventral_Hernia_Sizes::LARGE:
+            result += "большая";
+            break;
+        }
+
+    result += " ";
+    }
+
+    if (this->Get_Subtitle() != Primary_Ventral_Hernia_SubTypes::SUBTYPE_NOT_CHOSEN)
+    {
+        switch(this->Get_Subtitle())
+        {
+        case Primary_Ventral_Hernia_SubTypes::ANY_PRIMARY_VENTRAL_SUBTYPE:
+            result += "любая срединная/боковая";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::EPIGASTRIC:
+            result += "эпигистральная";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::UMBICIAL:
+            result += "пупочная";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::SPIGEL:
+            result += "спигелевой линии";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::LUMBAR:
+            result += "поясничная";
+            break;
+        }
+
+        return result;
+    }
+
+    else if (this->Get_Type() != Primary_Ventral_Hernia_Types::TYPE_NOT_CHOSEN)
+    {
+        switch(this->Get_Type())
+        {
+        case Primary_Ventral_Hernia_Types::ANY_PRIMARY_VENTRAL_TYPE:
+            result += "любая первичная";
+            break;
+        case Primary_Ventral_Hernia_Types::SIDE:
+            result += "боковая";
+            break;
+        case Primary_Ventral_Hernia_Types::MIDDLE:
+            result += "срединная";
+            break;
+        }
+
+        return result;
+    }
+
+    else
+    {
+        result += this->Get_Title();
+        return result;
+    }
 }

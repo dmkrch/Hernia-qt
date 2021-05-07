@@ -5,7 +5,7 @@ PostVentralHerniaForm::PostVentralHerniaForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PostVentralHerniaForm)
 {
-    this->postop_hernia = new Postoperative_Ventral_Hernia("паховая");
+    this->postop_hernia = new Postoperative_Ventral_Hernia("послеоперационная");
     ui->setupUi(this);
 }
 

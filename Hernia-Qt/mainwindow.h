@@ -38,6 +38,7 @@ private slots:
     void open_diagnosis_form(QString diagnosis_type);
     void sequela_form_closed();
     void inguinal_form_closed();
+    void primary_ventral_form_closed();
     void post_ventral_form_closed();
     void on_pushButton_search_op_clicked();
 

@@ -49,7 +49,9 @@ private:
 
 
 
-enum Primary_Ventral_Hernia_Sizes { ANY_PRIMARY_VENTRAL_SIZE, SMALL, MEDIUM, LARGE };
+enum Primary_Ventral_Hernia_Sizes { ANY_PRIMARY_VENTRAL_SIZE, SMALL, MEDIUM, LARGE, SIZE_NOT_CHOSEN };
+enum Primary_Ventral_Hernia_Types { ANY_PRIMARY_VENTRAL_TYPE, SIDE, MIDDLE, TYPE_NOT_CHOSEN };
+enum Primary_Ventral_Hernia_SubTypes { ANY_PRIMARY_VENTRAL_SUBTYPE, EPIGASTRIC, UMBICIAL, SPIGEL, LUMBAR, SUBTYPE_NOT_CHOSEN };
 
 
 /* 2nd type of hernia: primary ventral hernia */
@@ -58,19 +60,19 @@ class Primary_Ventral_Hernia : public Diagnosis
 public:
     Primary_Ventral_Hernia(QString t);
 
-    QString Get_Type() { return type; }
-    QString Get_Subtitle() { return subtitle; }
+    Primary_Ventral_Hernia_Types Get_Type() { return type; }
+    Primary_Ventral_Hernia_SubTypes Get_Subtitle() { return subtitle; }
     Primary_Ventral_Hernia_Sizes Get_Size() { return size; }
 
-    void Set_Type(QString type) { this->type = type; }
-    void Set_Subtitle(QString subt) { this->subtitle = subt; }
+    void Set_Type(Primary_Ventral_Hernia_Types type) { this->type = type; }
+    void Set_Subtitle(Primary_Ventral_Hernia_SubTypes subt) { this->subtitle = subt; }
     void Set_Size(Primary_Ventral_Hernia_Sizes s) { this->size = s; }
 
     QString Get_String() override;
 
 private:
-    QString type;
-    QString subtitle;
+    Primary_Ventral_Hernia_Types type;
+    Primary_Ventral_Hernia_SubTypes subtitle;
     Primary_Ventral_Hernia_Sizes size;
 };
 
