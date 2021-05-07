@@ -176,7 +176,12 @@ void MainWindow::set_date_edit()
 
 void MainWindow::open_diagnosis_form(QString diagnosis_type)
 {
-    if (diagnosis_type == "паховая грыжа")
+    if (diagnosis_type == "----все диагнозы----")
+    {
+        this->operation_to_find->diagnosis = new Diagnosis("----все диагнозы----");
+        ui->label_diagnosis->setText("Диагноз: " + this->operation_to_find->diagnosis->Get_String());
+    }
+    else if (diagnosis_type == "паховая грыжа")
     {
         inguinalHerniaform->show();
     }

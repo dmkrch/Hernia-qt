@@ -49,17 +49,30 @@ private:
 
 
 
-//enum Primary_Ventral_Hernia_Sizes { ANY_PRIMARY_VENTRAL_SIZE, SMALL, MEDIUM, LARGE };
+enum Primary_Ventral_Hernia_Sizes { ANY_PRIMARY_VENTRAL_SIZE, SMALL, MEDIUM, LARGE };
 
 
-///* 2nd type of hernia: primary ventral hernia */
-//class Primary_Ventral_Hernia : public Diagnosis
-//{
-//public:
-//    Primary_Ventral_Hernia(QString t);
-//private:
+/* 2nd type of hernia: primary ventral hernia */
+class Primary_Ventral_Hernia : public Diagnosis
+{
+public:
+    Primary_Ventral_Hernia(QString t);
 
-//};
+    QString Get_Type() { return type; }
+    QString Get_Subtitle() { return subtitle; }
+    Primary_Ventral_Hernia_Sizes Get_Size() { return size; }
+
+    void Set_Type(QString type) { this->type = type; }
+    void Set_Subtitle(QString subt) { this->subtitle = subt; }
+    void Set_Size(Primary_Ventral_Hernia_Sizes s) { this->size = s; }
+
+    QString Get_String() override;
+
+private:
+    QString type;
+    QString subtitle;
+    Primary_Ventral_Hernia_Sizes size;
+};
 
 
 

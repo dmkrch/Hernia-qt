@@ -20,6 +20,12 @@ Postoperative_Ventral_Hernia::Postoperative_Ventral_Hernia(QString t) : Diagnosi
     this->r = Postoperative_Ventral_Hernia_R::ANY_R;
 }
 
+Primary_Ventral_Hernia::Primary_Ventral_Hernia(QString t) : Diagnosis(t)
+{
+    this->size = Primary_Ventral_Hernia_Sizes::ANY_PRIMARY_VENTRAL_SIZE;
+//    this->
+}
+
 
 // get string for inguinal hernia
 QString Inguinal_Hernia::Get_String()
@@ -186,4 +192,9 @@ QString Postoperative_Ventral_Hernia::Get_String()
 }
 
 
+QString Primary_Ventral_Hernia::Get_String()
+{
+    QString result;
 
+    return result;
+}
