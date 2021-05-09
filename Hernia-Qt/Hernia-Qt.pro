@@ -1,4 +1,5 @@
 QT       += core gui
+QT += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,6 +22,7 @@ SOURCES += \
     classes_model/patient.cpp \
     classes_model/sequela.cpp \
     dateform.cpp \
+    dbmanager.cpp \
     inguinalherniaform.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -36,6 +38,7 @@ HEADERS += \
     classes_model/patient.h \
     classes_model/sequela.h \
     dateform.h \
+    dbmanager.h \
     inguinalherniaform.h \
     mainwindow.h \
     postventralherniaform.h \

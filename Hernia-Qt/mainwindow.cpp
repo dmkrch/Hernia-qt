@@ -2,6 +2,13 @@
 #include "ui_mainwindow.h"
 #include <QPushButton>
 #include <QAbstractItemView>
+#include <QInputDialog>
+
+#include <QSqlDatabase>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // some settings with forms
     ui->setupUi(this);
+
+    this->db = new DbManager("/home/dmkrch/Programming/Hernia-qt/Hernia-Qt/hernia.db");
+
+    Set_Surgeons_Combobox();
+    Set_Surgeons_List();
+    Set_Operations_List();
 
     // dateform setup
     dateform = new DateForm();
@@ -72,17 +85,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dateform, SIGNAL(date_setted()), this, SLOT(set_date_edit()));
 
 
-    // adding surgeons
-    QStringList surgeons = {"----все хирурги----", "Кулага Сергей Алексеевич", "Кухта Андрей Викторович",
-                           "Карпович Вячеслав Евгеньевич", "Мещеня Антон Николаевич",
-                           "Лапковский Александр Александрович", "Щемелев Максим Юрьевич",
-                           "Бутома Николай Николаевич", "Изгачев Максим Павлович",
-                           "Панцевич Никита Юрьевич", "Толкин Юрий Олегович",
-                           "Пунько Алексей Николаевич"};
+//    // adding surgeons
+//    QStringList surgeons = {"----все хирурги----", "Кулага Сергей Алексеевич", "Кухта Андрей Викторович",
+//                           "Карпович Вячеслав Евгеньевич", "Мещеня Антон Николаевич",
+//                           "Лапковский Александр Александрович", "Щемелев Максим Юрьевич",
+//                           "Бутома Николай Николаевич", "Изгачев Максим Павлович",
+//                           "Панцевич Никита Юрьевич", "Толкин Юрий Олегович",
+//                           "Пунько Алексей Николаевич"};
 
     ui->comboBox_surgeons->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_surgeons->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui->comboBox_surgeons->addItems(surgeons);
+//    ui->comboBox_surgeons->addItems(surgeons);
 
 
     // adding operations
@@ -275,8 +288,7 @@ void MainWindow::on_pushButton_search_op_clicked()
         g = Gender::FEMALE;
     else if (ui->checkBox_male->isChecked() && ui->checkBox_female->isChecked())
         g = Gender::ANY_MALE;
-//    else if (!ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
-//        qDebug >> "exception";
+
 
     // age of patient
     int age_from = ui->label_age_from->text().toInt();
@@ -292,4 +304,75 @@ void MainWindow::on_pushButton_search_op_clicked()
 //    ui->listWidget_output->addItem(QString::number(days_from));
 //    ui->listWidget_output->addItem(QString::number(days_to));
 //    ui->listWidget_output->addItem(operation_to_find->sequela->Get_Type() + operation_to_find->sequela->Get_Title());
+//    ui->listWidget_output->addItem("diagnosis: " + this->operation_to_find->diagnosis->Get_String());
+//    ui->listWidget_output->addItem("sequela: " + this->operation_to_find->sequela->Get_Title() +
+//                                   this->operation_to_find->sequela->Get_Type());
+}
+
+void MainWindow::on_pushButton_add_surgeon_clicked()
+{
+    // here i need to add surgeon to db
+    // and then refresh all information
+
+    QString c_text = QInputDialog::getText(this, "Добавление хирурга", "Введите имя хирурга");
+    QString s_text = c_text.simplified();
+
+    if (!s_text.isEmpty())
+    {
+        db->addSurgeon(s_text);
+        // add to bd
+        Set_Surgeons_List();
+        Set_Surgeons_Combobox();
+    }
+}
+
+void MainWindow::Set_Surgeons_Combobox()
+{
+    QSqlQueryModel* modal = new QSqlQueryModel();
+    QSqlQuery* qry = new QSqlQuery(db->m_db);
+
+    qry->prepare("select surg_name from surgeons;");
+    qry->exec();
+    modal->setQuery(*qry);
+    ui->comboBox_surgeons->setModel(modal);
+    qDebug() << modal->rowCount();
+}
+
+void MainWindow::Set_Surgeons_List()
+{
+    QSqlQueryModel* modal = new QSqlQueryModel();
+    QSqlQuery* qry = new QSqlQuery(db->m_db);
+
+    qry->prepare("select surg_name from surgeons;");
+    qry->exec();
+    modal->setQuery(*qry);
+    ui->listView_surgeons->setModel(modal);
+    qDebug() << modal->rowCount();
+}
+
+void MainWindow::Set_Operations_List()
+{
+    QSqlQueryModel* modal = new QSqlQueryModel();
+    QSqlQuery* qry = new QSqlQuery(db->m_db);
+
+    qry->prepare("SELECT \
+                 op_date as \"дата операции\", \
+                 op_title as \"название операции\", \
+                 surg_name as \"имя хирурга\", \
+                 op_rec_days as \"койко-дни\", \
+                 op_pat_gender as \"пол пациента\", \
+                 op_pat_age as \"возраст пациента\",\
+                 diagnosises.ing_id,\
+                 diagnosises.post_id,\
+                 diagnosises.pr_id\
+             FROM \
+                 operations\
+             INNER JOIN surgeons\
+                 ON surgeons.surg_id = operations.surg_id\
+             INNER JOIN diagnosises\
+                 ON diagnosises.diagn_id = operations.diagn_id");
+    qry->exec();
+    modal->setQuery(*qry);
+    ui->tableView_operations->setModel(modal);
+    qDebug() << modal->rowCount();
 }

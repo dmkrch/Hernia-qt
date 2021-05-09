@@ -12,6 +12,7 @@
 #include "postventralherniaform.h"
 #include "classes_model/handled_operation.h"
 #include "classes_model/operation_to_find_model.h"
+#include "dbmanager.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +25,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void Set_Surgeons_Combobox();
+    void Set_Surgeons_List();
+    void Set_Operations_List();
     ~MainWindow();
 
 private slots:
@@ -41,6 +45,7 @@ private slots:
     void primary_ventral_form_closed();
     void post_ventral_form_closed();
     void on_pushButton_search_op_clicked();
+    void on_pushButton_add_surgeon_clicked();
 
 private:
     //forms
@@ -61,6 +66,9 @@ private:
     Handled_Operation* new_handled_operation;
     Operation_To_Find_Model* operation_to_find;
     Diagnosis* diagnosis;
+
+    // db manager
+    DbManager* db;
 
     bool is_date_from_pressed;
 };
