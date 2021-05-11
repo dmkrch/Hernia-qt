@@ -8,7 +8,10 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 
+#include <QHeaderView>
 #include <QDebug>
+
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,11 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
     // some settings with forms
     ui->setupUi(this);
 
+
     this->db = new DbManager("/home/dmkrch/Programming/Hernia-qt/Hernia-Qt/hernia.db");
 
     Set_Surgeons_Combobox();
     Set_Surgeons_List();
     Set_Operations_List();
+
+    operationAddform = new OperationAddForm(this);
+    operationAddform->setModal(true);
 
     // dateform setup
     dateform = new DateForm();
@@ -95,7 +102,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->comboBox_surgeons->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_surgeons->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-//    ui->comboBox_surgeons->addItems(surgeons);
 
 
     // adding operations
@@ -263,50 +269,7 @@ void MainWindow::on_pushButton_sequence_clicked()
 
 void MainWindow::on_pushButton_search_op_clicked()
 {
-    // date
-    QDate date_from = ui->dateEdit_from->date();
-    QDate date_to = ui->dateEdit_to->date();
 
-    // title of operation
-    QString op_title = ui->comboBox_op_names->currentText();
-
-    // name of surgeon
-    QString surgeon_name = ui->comboBox_surgeons->currentText();
-
-    // sequence already setted in mainform->sequenceform
-
-    // recovering days
-    int days_from = ui->label_days_from->text().toInt();
-    int days_to = ui->label_days_to->text().toInt();
-
-    // gender
-    Gender g;
-
-    if (ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
-        g = Gender::MALE;
-    else if (!ui->checkBox_male->isChecked() && ui->checkBox_female->isChecked())
-        g = Gender::FEMALE;
-    else if (ui->checkBox_male->isChecked() && ui->checkBox_female->isChecked())
-        g = Gender::ANY_MALE;
-
-
-    // age of patient
-    int age_from = ui->label_age_from->text().toInt();
-    int age_to = ui->label_age_to->text().toInt();
-
-    // diagnosis already setted in mainwindow->diagnosis
-
-
-//    ui->listWidget_output->addItem(date_from.toString());
-//    ui->listWidget_output->addItem(date_to.toString());
-//    ui->listWidget_output->addItem(op_title);
-//    ui->listWidget_output->addItem(surgeon_name);
-//    ui->listWidget_output->addItem(QString::number(days_from));
-//    ui->listWidget_output->addItem(QString::number(days_to));
-//    ui->listWidget_output->addItem(operation_to_find->sequela->Get_Type() + operation_to_find->sequela->Get_Title());
-//    ui->listWidget_output->addItem("diagnosis: " + this->operation_to_find->diagnosis->Get_String());
-//    ui->listWidget_output->addItem("sequela: " + this->operation_to_find->sequela->Get_Title() +
-//                                   this->operation_to_find->sequela->Get_Type());
 }
 
 void MainWindow::on_pushButton_add_surgeon_clicked()
@@ -352,27 +315,258 @@ void MainWindow::Set_Surgeons_List()
 
 void MainWindow::Set_Operations_List()
 {
-    QSqlQueryModel* modal = new QSqlQueryModel();
+    ui->tableWidget_operations->setRowCount(0);
+
     QSqlQuery* qry = new QSqlQuery(db->m_db);
 
-    qry->prepare("SELECT \
-                 op_date as \"дата операции\", \
-                 op_title as \"название операции\", \
-                 surg_name as \"имя хирурга\", \
-                 op_rec_days as \"койко-дни\", \
-                 op_pat_gender as \"пол пациента\", \
-                 op_pat_age as \"возраст пациента\",\
-                 diagnosises.ing_id,\
-                 diagnosises.post_id,\
-                 diagnosises.pr_id\
-             FROM \
-                 operations\
-             INNER JOIN surgeons\
-                 ON surgeons.surg_id = operations.surg_id\
-             INNER JOIN diagnosises\
-                 ON diagnosises.diagn_id = operations.diagn_id");
-    qry->exec();
-    modal->setQuery(*qry);
-    ui->tableView_operations->setModel(modal);
-    qDebug() << modal->rowCount();
+    qry->prepare("SELECT op_id,\
+                 op_date,\
+                 surg_name, \
+                 op_title,\
+                 pat_gender, \
+                 pat_age, \
+                 seq_type, \
+                 seq_title,  \
+                 ing_lmf,\
+                 ing_pr, \
+                 ing_size, \
+                 op_rec_days \
+          FROM operations\
+          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
+          INNER JOIN ing_diagnosis on ing_diagnosis.ing_id = operations.ing_id");
+    if (qry->exec())
+    {
+        while(qry->next())
+        {
+            int row_count = ui->tableWidget_operations->rowCount();
+
+            ui->tableWidget_operations->insertRow(row_count);
+
+            QTableWidgetItem* op_id = new QTableWidgetItem;
+            QTableWidgetItem* op_date = new QTableWidgetItem;
+            QTableWidgetItem* surg_name = new QTableWidgetItem;
+            QTableWidgetItem* op_title = new QTableWidgetItem;
+            QTableWidgetItem* pat_gender = new QTableWidgetItem;
+            QTableWidgetItem* pat_age = new QTableWidgetItem;
+            QTableWidgetItem* seq = new QTableWidgetItem;
+            QTableWidgetItem* diagnosis = new QTableWidgetItem;
+            QTableWidgetItem* rec_days = new QTableWidgetItem;
+
+            op_id->setText(qry->value(0).toString());
+            op_date->setText(qry->value(1).toString());
+            surg_name->setText(qry->value(2).toString());
+            op_title->setText(qry->value(3).toString());
+            pat_gender->setText(qry->value(4).toString());
+            pat_age->setText(qry->value(5).toString());
+            seq->setText(qry->value(6).toString() + " " + qry->value(7).toString());
+            diagnosis->setText(qry->value(8).toString() + " " + qry->value(9).toString() + " " + qry->value(10).toString());
+            rec_days->setText(qry->value(11).toString());
+
+            ui->tableWidget_operations->setItem(row_count, 0, op_id);
+            ui->tableWidget_operations->setItem(row_count, 1, op_date);
+            ui->tableWidget_operations->setItem(row_count, 2, surg_name);
+            ui->tableWidget_operations->setItem(row_count, 3, op_title);
+            ui->tableWidget_operations->setItem(row_count, 4, pat_gender);
+            ui->tableWidget_operations->setItem(row_count, 5, pat_age);
+            ui->tableWidget_operations->setItem(row_count, 6, seq);
+            ui->tableWidget_operations->setItem(row_count, 7, diagnosis);
+            ui->tableWidget_operations->setItem(row_count, 8, rec_days);
+        }
+    }
+
+    QSqlQuery* qry1 = new QSqlQuery(db->m_db);
+    qry1->prepare("SELECT op_id,\
+                 op_date,\
+                 surg_name, \
+                 op_title,\
+                 pat_gender, \
+                 pat_age, \
+                 seq_type, \
+                 seq_title,  \
+                 post_m,\
+                 post_l, \
+                 post_w, \
+                 post_r, \
+                 op_rec_days \
+          FROM operations\
+          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
+          INNER JOIN post_diagnosis on post_diagnosis.post_id = operations.post_id");
+
+    if (qry1->exec())
+    {
+        while(qry1->next())
+        {
+            int row_count = ui->tableWidget_operations->rowCount();
+
+            ui->tableWidget_operations->insertRow(row_count);
+
+            QTableWidgetItem* op_id = new QTableWidgetItem;
+            QTableWidgetItem* op_date = new QTableWidgetItem;
+            QTableWidgetItem* surg_name = new QTableWidgetItem;
+            QTableWidgetItem* op_title = new QTableWidgetItem;
+            QTableWidgetItem* pat_gender = new QTableWidgetItem;
+            QTableWidgetItem* pat_age = new QTableWidgetItem;
+            QTableWidgetItem* seq = new QTableWidgetItem;
+            QTableWidgetItem* diagnosis = new QTableWidgetItem;
+            QTableWidgetItem* rec_days = new QTableWidgetItem;
+
+            op_id->setText(qry1->value(0).toString());
+            op_date->setText(qry1->value(1).toString());
+            surg_name->setText(qry1->value(2).toString());
+            op_title->setText(qry1->value(3).toString());
+            pat_gender->setText(qry1->value(4).toString());
+            pat_age->setText(qry1->value(5).toString());
+            seq->setText(qry1->value(6).toString() + " " + qry1->value(7).toString());
+            diagnosis->setText(qry1->value(8).toString() + " " + qry1->value(9).toString() + " " +
+                               qry1->value(10).toString() + " " + qry1->value(11).toString());
+
+            rec_days->setText(qry1->value(12).toString());
+
+            ui->tableWidget_operations->setItem(row_count, 0, op_id);
+            ui->tableWidget_operations->setItem(row_count, 1, op_date);
+            ui->tableWidget_operations->setItem(row_count, 2, surg_name);
+            ui->tableWidget_operations->setItem(row_count, 3, op_title);
+            ui->tableWidget_operations->setItem(row_count, 4, pat_gender);
+            ui->tableWidget_operations->setItem(row_count, 5, pat_age);
+            ui->tableWidget_operations->setItem(row_count, 6, seq);
+            ui->tableWidget_operations->setItem(row_count, 7, diagnosis);
+            ui->tableWidget_operations->setItem(row_count, 8, rec_days);
+        }
+    }
+    QSqlQuery* qry2 = new QSqlQuery(db->m_db);
+    qry2->prepare("SELECT op_id,\
+                 op_date,\
+                 surg_name, \
+                 op_title,\
+                 pat_gender, \
+                 pat_age, \
+                 seq_type, \
+                 seq_title,  \
+                 pr_type,\
+                 pr_subtitle, \
+                 pr_size, \
+                 op_rec_days \
+          FROM operations\
+          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
+          INNER JOIN pr_diagnosis on pr_diagnosis.pr_id = operations.pr_id");
+
+    if (qry2->exec())
+    {
+        while(qry2->next())
+        {
+            int row_count = ui->tableWidget_operations->rowCount();
+
+            ui->tableWidget_operations->insertRow(row_count);
+
+            QTableWidgetItem* op_id = new QTableWidgetItem;
+            QTableWidgetItem* op_date = new QTableWidgetItem;
+            QTableWidgetItem* surg_name = new QTableWidgetItem;
+            QTableWidgetItem* op_title = new QTableWidgetItem;
+            QTableWidgetItem* pat_gender = new QTableWidgetItem;
+            QTableWidgetItem* pat_age = new QTableWidgetItem;
+            QTableWidgetItem* seq = new QTableWidgetItem;
+            QTableWidgetItem* diagnosis = new QTableWidgetItem;
+            QTableWidgetItem* rec_days = new QTableWidgetItem;
+
+            op_id->setText(qry2->value(0).toString());
+            op_date->setText(qry2->value(1).toString());
+            surg_name->setText(qry2->value(2).toString());
+            op_title->setText(qry2->value(3).toString());
+            pat_gender->setText(qry2->value(4).toString());
+            pat_age->setText(qry2->value(5).toString());
+            seq->setText(qry2->value(6).toString() + " " + qry2->value(7).toString());
+            diagnosis->setText(qry2->value(8).toString() + " " + qry2->value(9).toString() + " " +
+                               qry2->value(10).toString());
+
+            rec_days->setText(qry2->value(11).toString());
+
+            ui->tableWidget_operations->setItem(row_count, 0, op_id);
+            ui->tableWidget_operations->setItem(row_count, 1, op_date);
+            ui->tableWidget_operations->setItem(row_count, 2, surg_name);
+            ui->tableWidget_operations->setItem(row_count, 3, op_title);
+            ui->tableWidget_operations->setItem(row_count, 4, pat_gender);
+            ui->tableWidget_operations->setItem(row_count, 5, pat_age);
+            ui->tableWidget_operations->setItem(row_count, 6, seq);
+            ui->tableWidget_operations->setItem(row_count, 7, diagnosis);
+            ui->tableWidget_operations->setItem(row_count, 8, rec_days);
+        }
+    }
+}
+
+void MainWindow::on_pushButton_delete_op_clicked()
+{
+    // here i need to delete operation by its id from db
+    // and then refresh all information about operations
+
+    QString c_text = QInputDialog::getText(this, "Удаление операции", "Введите номер операции");
+    QString op_id = c_text.simplified(); // we got id of operation
+
+    if (!op_id.isEmpty())
+    {
+        QSqlQuery qry_count_op;
+        qry_count_op.prepare("SELECT COUNT(*) FROM operations WHERE op_id='"+op_id+"'");
+        qry_count_op.exec();
+
+        qry_count_op.next();
+
+        int count = qry_count_op.value(0).toInt();
+
+        if (count == 1) // if operation exists with such id
+        {
+            QSqlQuery qry_find_diagnosis;
+            qry_find_diagnosis.prepare("select ing_id, post_id, pr_id from operations where op_id='"+op_id+"'");
+            qry_find_diagnosis.exec();
+            qry_find_diagnosis.next();
+
+            int ing_id = qry_find_diagnosis.value(0).toInt();
+            int post_id = qry_find_diagnosis.value(1).toInt();
+            int pr_id = qry_find_diagnosis.value(2).toInt();
+
+            // now deleting diagnosis
+            if (ing_id != 0)
+            {
+                QSqlQuery qry_delete_ing;
+                qry_delete_ing.prepare("DELETE FROM ing_diagnosis WHERE ing_id='"+QString::number(ing_id)+"'");
+                qry_delete_ing.exec();
+            }
+            else if (post_id != 0)
+            {
+                QSqlQuery qry_delete_post;
+                qry_delete_post.prepare("DELETE FROM post_diagnosis WHERE post_id='"+QString::number(post_id)+"'");
+                qry_delete_post.exec();
+            }
+            else if (pr_id != 0)
+            {
+                QSqlQuery qry_delete_pr;
+                qry_delete_pr.prepare("DELETE FROM pr_diagnosis WHERE pr_id='"+QString::number(pr_id)+"'");
+                qry_delete_pr.exec();
+            }
+
+
+            // now deleting operation
+            QSqlQuery qry1;
+            qry1.prepare("DELETE FROM operations WHERE op_id='"+op_id+"'");
+
+            if(qry1.exec())
+            {
+                QMessageBox::information(this, "Удаление операции", "Удаление прошло успешно");
+                Set_Operations_List();
+            }
+            else
+            {
+                QMessageBox::warning(this, "Удаление операции", "Не удалось удалить операцию");
+            }
+        }
+        else
+        {
+            QMessageBox::warning(this, "Удаление операции", "Не существует операции с заданным номером");
+        }
+    }
+
+
+}
+
+void MainWindow::on_pushButton_add_new_op_clicked()
+{
+    operationAddform->show();
 }

@@ -77,23 +77,6 @@ bool DbManager::isOpen() const
     return m_db.isOpen();
 }
 
-bool DbManager::createTable()
-{
-    bool success = false;
-
-    QSqlQuery query;
-    query.prepare("CREATE TABLE people(id INTEGER PRIMARY KEY, name TEXT);");
-
-    if (!query.exec())
-    {
-        qDebug() << "Couldn't create the table 'people': one might already exist.";
-        success = false;
-    }
-
-    return success;
-}
-
-
 bool DbManager::removePerson(const QString& name)
 {
     bool success = false;
@@ -118,17 +101,6 @@ bool DbManager::removePerson(const QString& name)
     return success;
 }
 
-void DbManager::printAllPersons() const
-{
-    qDebug() << "Persons in db:";
-    QSqlQuery query("SELECT * FROM people");
-    int idName = query.record().indexOf("name");
-    while (query.next())
-    {
-        QString name = query.value(idName).toString();
-        qDebug() << "===" << name;
-    }
-}
 
 bool DbManager::personExists(const QString& name) const
 {
@@ -153,21 +125,3 @@ bool DbManager::personExists(const QString& name) const
     return exists;
 }
 
-bool DbManager::removeAllPersons()
-{
-    bool success = false;
-
-    QSqlQuery removeQuery;
-    removeQuery.prepare("DELETE FROM people");
-
-    if (removeQuery.exec())
-    {
-        success = true;
-    }
-    else
-    {
-        qDebug() << "remove all persons failed: " << removeQuery.lastError();
-    }
-
-    return success;
-}

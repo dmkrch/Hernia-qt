@@ -9,8 +9,7 @@
 class Handled_Operation
 {
 public:
-    Handled_Operation(Patient* p, QDate d,
-        Sequela* seq, QString t, int days);
+    Handled_Operation() {}
 
     Handled_Operation(const Handled_Operation& op);
     
@@ -20,6 +19,8 @@ public:
     QString Get_Title() { return op_title; }
     int Get_Rec_Days() { return recovering_days; }
     QString Get_Surgeon() { return surgeon; }
+
+    void Set_Sequela(Sequela* seq) { this->sequela = seq; }
 
     ~Handled_Operation();
     

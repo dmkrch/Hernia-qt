@@ -26,6 +26,7 @@ SOURCES += \
     inguinalherniaform.cpp \
     main.cpp \
     mainwindow.cpp \
+    operationaddform.cpp \
     postventralherniaform.cpp \
     pventralherniaform.cpp \
     rangeslider.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     dbmanager.h \
     inguinalherniaform.h \
     mainwindow.h \
+    operationaddform.h \
     postventralherniaform.h \
     pventralherniaform.h \
     rangeslider.h \
@@ -50,6 +52,7 @@ FORMS += \
     dateform.ui \
     inguinalherniaform.ui \
     mainwindow.ui \
+    operationaddform.ui \
     postventralherniaform.ui \
     pventralherniaform.ui \
     sequenceform.ui

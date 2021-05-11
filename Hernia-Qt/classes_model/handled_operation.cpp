@@ -1,10 +1,5 @@
 #include "handled_operation.h"
 
-Handled_Operation::Handled_Operation(Patient* p, QDate d,
-        Sequela* seq, QString t, int days) : patient(p),
-            date(d), sequela(seq), op_title(t), recovering_days(days) {}
-
-
 Handled_Operation::Handled_Operation(const Handled_Operation& op)
 {
     this->date = op.date;

@@ -5,15 +5,16 @@
 #include <QToolBar>
 #include "rangeslider.h"
 #include <QSlider>
-#include "dateform.h"
-#include "sequenceform.h"
+
+#include "dbmanager.h"
+#include "classes_model/handled_operation.h"
+#include "classes_model/operation_to_find_model.h"
+#include "operationaddform.h"
 #include "inguinalherniaform.h"
 #include "pventralherniaform.h"
 #include "postventralherniaform.h"
-#include "classes_model/handled_operation.h"
-#include "classes_model/operation_to_find_model.h"
-#include "dbmanager.h"
-
+#include "dateform.h"
+#include "sequenceform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ public:
     void Set_Surgeons_Combobox();
     void Set_Surgeons_List();
     void Set_Operations_List();
+    DbManager* Get_DB_Manager() { return this->db; }
     ~MainWindow();
 
 private slots:
@@ -46,6 +48,9 @@ private slots:
     void post_ventral_form_closed();
     void on_pushButton_search_op_clicked();
     void on_pushButton_add_surgeon_clicked();
+    void on_pushButton_delete_op_clicked();
+
+    void on_pushButton_add_new_op_clicked();
 
 private:
     //forms
@@ -55,6 +60,8 @@ private:
     InguinalHerniaForm* inguinalHerniaform;
     PVentralHerniaForm* pventralHerniaform;
     PostVentralHerniaForm* postVentralHerniaform;
+    OperationAddForm* operationAddform;
+
 
     // widgets
     QToolBar* toolbar;

@@ -39,7 +39,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -481,6 +481,9 @@
             </item>
            </layout>
           </item>
+          <item row="3" column="2" rowspan="3">
+           <widget class="QListWidget" name="listWidget_output"/>
+          </item>
          </layout>
         </item>
        </layout>
@@ -507,7 +510,7 @@
              <layout class="QVBoxLayout" name="verticalLayout_12">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_19">
-                <item alignment="Qt::AlignHCenter">
+                <item>
                  <widget class="QLabel" name="label_7">
                   <property name="font">
                    <font>
@@ -520,16 +523,58 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QTableView" name="tableView_operations">
-                  <property name="showGrid">
+                 <widget class="QTableWidget" name="tableWidget_operations">
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
                    <bool>true</bool>
-                  </property>
-                  <property name="gridStyle">
-                   <enum>Qt::SolidLine</enum>
-                  </property>
-                  <property name="sortingEnabled">
-                   <bool>false</bool>
-                  </property>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>#</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Дата</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Хирург</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Операция</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Пол</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Возраст</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Осложнение</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Диагноз</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Койко-дни</string>
+                   </property>
+                  </column>
                  </widget>
                 </item>
                </layout>
@@ -537,7 +582,7 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="pushButton_add_new_op">
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
@@ -549,7 +594,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_3">
+                 <widget class="QPushButton" name="pushButton_delete_op">
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
