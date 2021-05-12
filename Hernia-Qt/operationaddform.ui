@@ -41,6 +41,16 @@
      <item row="4" column="0">
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item alignment="Qt::AlignHCenter">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>осложнение</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignHCenter">
         <widget class="QLabel" name="label_sequela">
          <property name="text">
           <string>Осложнение: не указано</string>

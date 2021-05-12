@@ -51,6 +51,8 @@ private slots:
     void on_pushButton_delete_op_clicked();
     void on_pushButton_add_new_op_clicked();
 
+    void on_checkBox_clicked(bool checked);
+
 private:
     //forms
     Ui::MainWindow *ui;

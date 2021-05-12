@@ -10,6 +10,13 @@ Handled_Operation::Handled_Operation(const Handled_Operation& op)
     this->sequela->Set_Title(op.sequela->Get_Title());
 }
 
+Handled_Operation::Handled_Operation()
+{
+    this->sequela = NULL;
+    this->diagnosis = NULL;
+    this->patient = NULL;
+}
+
 Handled_Operation::~Handled_Operation()
 {
     delete sequela;

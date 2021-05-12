@@ -95,14 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dateform, SIGNAL(date_setted()), this, SLOT(set_date_edit()));
 
 
-//    // adding surgeons
-//    QStringList surgeons = {"----все хирурги----", "Кулага Сергей Алексеевич", "Кухта Андрей Викторович",
-//                           "Карпович Вячеслав Евгеньевич", "Мещеня Антон Николаевич",
-//                           "Лапковский Александр Александрович", "Щемелев Максим Юрьевич",
-//                           "Бутома Николай Николаевич", "Изгачев Максим Павлович",
-//                           "Панцевич Никита Юрьевич", "Толкин Юрий Олегович",
-//                           "Пунько Алексей Николаевич"};
-
+    // adding surgeons
     ui->comboBox_surgeons->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_surgeons->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
@@ -146,6 +139,8 @@ MainWindow::MainWindow(QWidget *parent)
             &MainWindow::primary_ventral_form_closed);
 
     this->operation_to_find = new Operation_To_Find_Model();
+
+    connect(operationAddform, &OperationAddForm::operation_added, this, &MainWindow::Set_Operations_List);
 }
 
 
@@ -328,6 +323,7 @@ void MainWindow::Set_Operations_List()
                  pat_age, \
                  seq_type, \
                  seq_title,  \
+                 diagn_title, \
                  ing_lmf,\
                  ing_pr, \
                  ing_size, \
@@ -360,8 +356,9 @@ void MainWindow::Set_Operations_List()
             pat_gender->setText(qry->value(4).toString());
             pat_age->setText(qry->value(5).toString());
             seq->setText(qry->value(6).toString() + " " + qry->value(7).toString());
-            diagnosis->setText(qry->value(8).toString() + " " + qry->value(9).toString() + " " + qry->value(10).toString());
-            rec_days->setText(qry->value(11).toString());
+            diagnosis->setText(qry->value(8).toString() + " " + qry->value(9).toString() + " " + qry->value(10).toString()
+                               + " " + qry->value(11).toString());
+            rec_days->setText(qry->value(12).toString());
 
             ui->tableWidget_operations->setItem(row_count, 0, op_id);
             ui->tableWidget_operations->setItem(row_count, 1, op_date);
@@ -384,6 +381,7 @@ void MainWindow::Set_Operations_List()
                  pat_age, \
                  seq_type, \
                  seq_title,  \
+                 diagn_title, \
                  post_m,\
                  post_l, \
                  post_w, \
@@ -419,9 +417,10 @@ void MainWindow::Set_Operations_List()
             pat_age->setText(qry1->value(5).toString());
             seq->setText(qry1->value(6).toString() + " " + qry1->value(7).toString());
             diagnosis->setText(qry1->value(8).toString() + " " + qry1->value(9).toString() + " " +
-                               qry1->value(10).toString() + " " + qry1->value(11).toString());
+                               qry1->value(10).toString() + " " + qry1->value(11).toString() + " " +
+                               qry1->value(12).toString());
 
-            rec_days->setText(qry1->value(12).toString());
+            rec_days->setText(qry1->value(13).toString());
 
             ui->tableWidget_operations->setItem(row_count, 0, op_id);
             ui->tableWidget_operations->setItem(row_count, 1, op_date);
@@ -443,6 +442,7 @@ void MainWindow::Set_Operations_List()
                  pat_age, \
                  seq_type, \
                  seq_title,  \
+                 diagn_title, \
                  pr_type,\
                  pr_subtitle, \
                  pr_size, \
@@ -477,9 +477,9 @@ void MainWindow::Set_Operations_List()
             pat_age->setText(qry2->value(5).toString());
             seq->setText(qry2->value(6).toString() + " " + qry2->value(7).toString());
             diagnosis->setText(qry2->value(8).toString() + " " + qry2->value(9).toString() + " " +
-                               qry2->value(10).toString());
+                               qry2->value(10).toString() + qry2->value(11).toString());
 
-            rec_days->setText(qry2->value(11).toString());
+            rec_days->setText(qry2->value(12).toString());
 
             ui->tableWidget_operations->setItem(row_count, 0, op_id);
             ui->tableWidget_operations->setItem(row_count, 1, op_date);
@@ -565,9 +565,23 @@ void MainWindow::on_pushButton_delete_op_clicked()
     }
 
 
+
+
 }
 
 void MainWindow::on_pushButton_add_new_op_clicked()
 {
     operationAddform->show();
+}
+void MainWindow::on_checkBox_clicked(bool checked)
+{
+
+    if (checked)
+    {
+        ui->pushButton_sequence->setEnabled(true);
+    }
+    else
+    {
+        ui->pushButton_sequence->setEnabled(false);
+    }
 }

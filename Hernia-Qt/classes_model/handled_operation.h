@@ -9,7 +9,7 @@
 class Handled_Operation
 {
 public:
-    Handled_Operation() {}
+    Handled_Operation();
 
     Handled_Operation(const Handled_Operation& op);
     
@@ -23,6 +23,11 @@ public:
 
     void Set_Sequela(Sequela* seq) { this->sequela = seq; }
     void Set_Diagnosis(Diagnosis* d) { this->diagnosis = d; }
+    void Set_Patient(Patient* p) { this->patient = p; }
+    void Set_Date(QDate date) { this->date = date; }
+    void Set_Title(QString t) { this->op_title = t; }
+    void Set_Rec_Days(int days) { this->recovering_days = days; }
+    void Set_Surgeon(QString s) { this->surgeon = s; }
 
     ~Handled_Operation();
     

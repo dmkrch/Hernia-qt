@@ -1,6 +1,9 @@
 #include "operationaddform.h"
 #include "ui_operationaddform.h"
 
+#include <QDebug>
+
+
 OperationAddForm::OperationAddForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OperationAddForm)
@@ -53,7 +56,7 @@ OperationAddForm::OperationAddForm(QWidget *parent) :
 
 
     // setting diagnosis form open connection
-    QStringList diagnosises = {"паховая грыжа", "первичная вентральная грыжа",
+    QStringList diagnosises = {"не указано", "паховая грыжа", "первичная вентральная грыжа",
                                "послеоперационная вентральная грыжа"};
 
     ui->comboBox_diagnosis->setStyleSheet("combobox-popup: 0;");
@@ -130,7 +133,11 @@ void OperationAddForm::post_ventral_form_closed()
 
 void OperationAddForm::open_diagnosis_form(QString diagnosis_type)
 {
-    if (diagnosis_type == "паховая грыжа")
+    if (diagnosis_type == "не указано")
+    {
+        ui->label_diagnosis->setText("Диагноз: " + diagnosis_type);
+    }
+    else if (diagnosis_type == "паховая грыжа")
     {
         inguinalHerniaform->show();
     }
@@ -187,6 +194,8 @@ void OperationAddForm::on_pushButton_add_op_clicked()
 {
     // getting date and checking
     QDate date = ui->dateEdit->date();
+    operation_to_add->Set_Date(date);
+    QString date_str = date.toString("yyyy-MM-dd");
 
 
     // getting op title and checking if not null
@@ -196,26 +205,209 @@ void OperationAddForm::on_pushButton_add_op_clicked()
         QMessageBox::warning(this, "добавление операции", "Укажите название операции");
         return;
     }
+    operation_to_add->Set_Title(op_title);
+
 
     // getting surgeon name
     QString  surg_name = ui->comboBox_surgeons->currentText();
+    operation_to_add->Set_Surgeon(surg_name);
+
+    QSqlQuery* get_surg_id = new QSqlQuery(db_name);
+    get_surg_id->prepare("SELECT surg_id FROM surgeons WHERE surg_name='"+surg_name+"'");
+    get_surg_id->exec();
+    get_surg_id->next();
+
+    QString surg_id = get_surg_id->value(0).toString();
+
+
 
     // getting recovering days
     int rec_days = ui->horizontalSlider->value();
+    QString rec_days_str = QString::number(rec_days);
+    operation_to_add->Set_Rec_Days(rec_days);
 
     // getting patient age
     int pat_age = ui->horizontalSlider_pat_age->value();
+    QString pat_age_str = QString::number(pat_age);
 
-
-    QString gender;
+    Gender gender;
+    QString gender_str;
     // getting patient gender
     if (ui->radioButton_gender_f->isChecked())
-        gender = "ж";
+    {
+        gender = Gender::FEMALE;
+        gender_str = "ж";
+    }
     else if (ui->radioButton_gender_m->isChecked())
-        gender = "м";
+    {
+        gender = Gender::MALE;
+        gender_str = "м";
+    }
     else
+    {
         QMessageBox::warning(this, "Добавление операции", "Укажите пол пациента");
+        return;
+    }
+
+    Patient* patient = new Patient(gender, pat_age);
+    operation_to_add->Set_Patient(patient);
+
+
+    if (ui->comboBox_diagnosis->currentText() == "не указано")
+    {
+        QMessageBox::warning(this, "Добавление операции", "Укажите диагноз");
+        return;
+    }
+
+    // checking sequela
+    if (ui->checkBox->isChecked())
+    {
+        if (operation_to_add->Get_Sequela() == NULL)
+        {
+            QMessageBox::warning(this, "Добавление операции", "Укажите осложнение");
+            return;
+        }
+    }
+
+    // now we can insert the operation into db and then refresh viewing of operations
+    // first we need to instert diagnosis and remember its id and type
+
+    QString diagn_type = operation_to_add->Get_Diagnosis()->Get_Title();
+
+    int ing_id = 0;
+    int post_id = 0;
+    int pr_id = 0;
+
+    if (diagn_type == "паховая")
+    {
+        Inguinal_Hernia_LMF lmf = this->inguinalHerniaform->Get_Hernia()->Get_LMF();
+        Inguinal_Hernia_PR pr = this->inguinalHerniaform->Get_Hernia()->Get_PR();
+        Inguinal_Hernia_SIZE size = this->inguinalHerniaform->Get_Hernia()->Get_Size();
+
+        // now we set strings so that we can add info in query
+        QString lmf_str;
+        switch(lmf)
+        {
+        case Inguinal_Hernia_LMF::L:
+            lmf_str = "l";
+            break;
+        case Inguinal_Hernia_LMF::M:
+            lmf_str = "m";
+            break;
+        case Inguinal_Hernia_LMF::F:
+            lmf_str = "f";
+            break;
+        }
+
+        QString pr_str;
+        switch(pr)
+        {
+        case Inguinal_Hernia_PR::P:
+            pr_str = "p";
+            break;
+        case Inguinal_Hernia_PR::R:
+            pr_str = "r";
+            break;
+        }
+
+        QString size_str;
+        switch(size)
+        {
+        case Inguinal_Hernia_SIZE::S1:
+            size_str = "s1";
+            break;
+        case Inguinal_Hernia_SIZE::S2:
+            size_str = "s2";
+            break;
+        case Inguinal_Hernia_SIZE::S3:
+            size_str = "s3";
+            break;
+        case Inguinal_Hernia_SIZE::S4:
+            size_str = "s4";
+            break;
+        case Inguinal_Hernia_SIZE::S5:
+            size_str = "s5";
+            break;
+        }
+
+        QSqlQuery* add_ing_diagnosis_qry = new QSqlQuery(QSqlDatabase::database(db_name));
+
+        add_ing_diagnosis_qry->prepare("INSERT INTO ing_diagnosis(ing_lmf, ing_pr, ing_size) VALUES(:lmf, :pr, :size)");
+        add_ing_diagnosis_qry->bindValue(":lmf", lmf_str);
+        add_ing_diagnosis_qry->bindValue(":pr", pr_str);
+        add_ing_diagnosis_qry->bindValue(":size", size_str);
+        add_ing_diagnosis_qry->exec();
+
+        QSqlQuery* get_max_ing_id = new QSqlQuery(QSqlDatabase::database(db_name));
+        get_max_ing_id->prepare("SELECT max(ing_id) from ing_diagnosis");
+        get_max_ing_id->exec();
+        get_max_ing_id->next();
+
+        ing_id = get_max_ing_id->value(0).toInt();
+        QString ing_id_str = QString::number(ing_id);
+
+        // now we can set operation, because we created inguinal diagnosis and know its id in ing_id
+
+        // but before this, we need to check whether sequela is null or not
+         if (operation_to_add->Get_Sequela() == NULL)
+         {
+             // if sequela is null
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, ing_id, diagn_title) VALUES(:date, :op_title, \
+                                    :surg_id, :rec_days, :pat_age, :pat_gender, :ing_id, :diagn_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":ing_id", ing_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+
+
+             if (operation_add->exec())
+             {
+                 qDebug() << "success";
+             }
+
+
+         }
+         else
+         {
+             // if sequela is not null
+         }
 
 
 
+    }
+    else if (diagn_type == "первичная")
+    {
+        Primary_Ventral_Hernia_Types type = this->pventralHerniaform->Get_Hernia()->Get_Type();
+        Primary_Ventral_Hernia_SubTypes subtitle = this->pventralHerniaform->Get_Hernia()->Get_Subtitle();
+        Primary_Ventral_Hernia_Sizes size = this->pventralHerniaform->Get_Hernia()->Get_Size();
+    }
+    else if (diagn_type == "послеоперационная")
+    {
+        Postoperative_Ventral_Hernia_L l = this->postVentralHerniaform->Get_Hernia()->Get_L();
+        Postoperative_Ventral_Hernia_M m = this->postVentralHerniaform->Get_Hernia()->Get_M();
+        Postoperative_Ventral_Hernia_R r = this->postVentralHerniaform->Get_Hernia()->Get_R();
+        Postoperative_Ventral_Hernia_W w = this->postVentralHerniaform->Get_Hernia()->Get_W();
+    }
+
+    emit operation_added();
+}
+
+void OperationAddForm::on_checkBox_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->pushButton_sequela->setEnabled(true);
+    }
+    else
+    {
+        ui->pushButton_sequela->setEnabled(false);
+    }
 }

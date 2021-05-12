@@ -30,6 +30,9 @@ public:
     explicit OperationAddForm(QWidget *parent = nullptr);
     ~OperationAddForm();
 
+signals:
+    void operation_added();
+
 private slots:
     void on_pushButton_choose_date_clicked();
     void date_chosen();
@@ -43,6 +46,8 @@ private slots:
     void post_ventral_form_closed();
 
     void on_pushButton_add_op_clicked();
+
+    void on_checkBox_clicked(bool checked);
 
 private:
     Ui::OperationAddForm *ui;

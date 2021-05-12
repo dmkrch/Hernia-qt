@@ -13,7 +13,7 @@ SequenceForm::SequenceForm(QWidget *parent) :
 
     sequela = new Sequela();
 
-    QStringList seq_types = {"----любое осложнение----", "не указано", "интраоперационное", "послеоперационное"};
+    QStringList seq_types = {"----любое осложнение----", "интраоперационное", "послеоперационное"};
     ui->comboBox_seq_type->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_seq_type->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->comboBox_seq_type->addItems(seq_types);
