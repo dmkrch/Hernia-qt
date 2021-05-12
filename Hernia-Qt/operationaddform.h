@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QComboBox>
 #include <QAbstractItemView>
+#include <QMessageBox>
 
 #include <QSqlQueryModel>
 #include <QSqlDatabase>
@@ -12,6 +13,9 @@
 #include "sequenceform.h"
 #include "dateform.h"
 #include "classes_model/handled_operation.h"
+#include "inguinalherniaform.h"
+#include "postventralherniaform.h"
+#include "pventralherniaform.h"
 
 namespace Ui
 {
@@ -31,6 +35,14 @@ private slots:
     void date_chosen();
     void seq_form_closed();
     void on_pushButton_sequela_clicked();
+    void on_horizontalSlider_pat_age_valueChanged(int value);
+    void on_horizontalSlider_valueChanged(int value);
+    void open_diagnosis_form(QString diagnosis_type);
+    void inguinal_form_closed();
+    void primary_ventral_form_closed();
+    void post_ventral_form_closed();
+
+    void on_pushButton_add_op_clicked();
 
 private:
     Ui::OperationAddForm *ui;
@@ -38,6 +50,9 @@ private:
     // forms
     DateForm* date_form;
     SequenceForm* seq_form;
+    InguinalHerniaForm* inguinalHerniaform;
+    PostVentralHerniaForm* postVentralHerniaform;
+    PVentralHerniaForm* pventralHerniaform;
 
     // database settings
     QString db_name;

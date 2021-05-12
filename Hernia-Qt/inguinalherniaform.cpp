@@ -9,6 +9,13 @@ InguinalHerniaForm::InguinalHerniaForm(QWidget *parent) :
     ui->setupUi(this);
 }
 
+void InguinalHerniaForm::Set_Only_Conrete_Choice()
+{
+    ui->radioButton_all_lmf->setEnabled(false);
+    ui->radioButton_all_pr->setEnabled(false);
+    ui->radioButton_all_size->setEnabled(false);
+}
+
 InguinalHerniaForm::~InguinalHerniaForm()
 {
     delete ui;

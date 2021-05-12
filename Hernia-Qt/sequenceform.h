@@ -17,6 +17,7 @@ signals:
 public:
     explicit SequenceForm(QWidget *parent = nullptr);
     Sequela* Get_Sequela() { return sequela; }
+    void Set_Only_Concrete();
     ~SequenceForm();
 
 private slots:
@@ -26,6 +27,7 @@ private slots:
 private:
     Sequela* sequela;
     Ui::SequenceForm *ui;
+    bool only_concrete;
 };
 
 #endif // SEQUENCEFORM_H

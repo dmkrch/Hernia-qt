@@ -16,6 +16,7 @@ class PostVentralHerniaForm : public QDialog
 public:
     explicit PostVentralHerniaForm(QWidget *parent = nullptr);
     Postoperative_Ventral_Hernia* Get_Hernia() { return postop_hernia;}
+    void Set_Only_Conrete_Choice();
 
     ~PostVentralHerniaForm();
 signals:

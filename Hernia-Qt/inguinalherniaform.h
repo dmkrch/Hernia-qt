@@ -18,6 +18,7 @@ signals:
 public:
     explicit InguinalHerniaForm(QWidget *parent = nullptr);
     Inguinal_Hernia* Get_Hernia() { return inguinal_hernia; }
+    void Set_Only_Conrete_Choice();
     ~InguinalHerniaForm();
 
 private slots:

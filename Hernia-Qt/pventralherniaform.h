@@ -15,6 +15,7 @@ class PVentralHerniaForm : public QDialog
 public:
     explicit PVentralHerniaForm(QWidget *parent = nullptr);
     Primary_Ventral_Hernia* Get_Hernia() { return ventral_hernia; }
+    void Set_Only_Conrete_Choice();
     ~PVentralHerniaForm();
 signals:
     void form_was_closed();
@@ -27,6 +28,7 @@ private slots:
 private:
     Ui::PVentralHerniaForm *ui;
     Primary_Ventral_Hernia* ventral_hernia;
+    bool only_concrete;
 };
 
 #endif // PVENTRALHERNIAFORM_H

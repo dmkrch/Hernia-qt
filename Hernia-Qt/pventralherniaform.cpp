@@ -8,6 +8,7 @@ PVentralHerniaForm::PVentralHerniaForm(QWidget *parent) :
 {
     this->ventral_hernia = new Primary_Ventral_Hernia("первичная");
     ui->setupUi(this);
+    only_concrete = false;
 
 
     QStringList pventral_diagnosises = {"--любая--","срединная", "боковая"};
@@ -19,6 +20,13 @@ PVentralHerniaForm::PVentralHerniaForm(QWidget *parent) :
 
     connect(ui->comboBox_type_pventral_hernia, &QComboBox::currentTextChanged, this,
             &PVentralHerniaForm::set_diagnosis_ventral_type);
+}
+
+void PVentralHerniaForm::Set_Only_Conrete_Choice()
+{
+    only_concrete = true;
+    ui->comboBox_type_pventral_hernia->removeItem(0);
+    ui->radioButton_all_size->setEnabled(false);
 }
 
 PVentralHerniaForm::~PVentralHerniaForm()
@@ -36,14 +44,32 @@ void PVentralHerniaForm::set_diagnosis_ventral_type(QString ventral_type)
      else if (ventral_type == "срединная")
      {
         ui->comboBox_subtype_pventral_hernia->clear();
-        QStringList pventral_middle = {"--любая срединная--", "эпигистральная", "пупочная"};
-        ui->comboBox_subtype_pventral_hernia->addItems(pventral_middle);
+
+        if (!only_concrete)
+        {
+            QStringList pventral_middle = {"--любая срединная--", "эпигистральная", "пупочная"};
+            ui->comboBox_subtype_pventral_hernia->addItems(pventral_middle);
+        }
+        else
+        {
+            QStringList pventral_middle = {"эпигистральная", "пупочная"};
+            ui->comboBox_subtype_pventral_hernia->addItems(pventral_middle);
+        }
      }
      else if (ventral_type == "боковая")
      {
         ui->comboBox_subtype_pventral_hernia->clear();
-        QStringList pventral_side = {"--любая боковая--", "спигелевой линии", "поясничная"};
-        ui->comboBox_subtype_pventral_hernia->addItems(pventral_side);
+
+        if (!only_concrete)
+        {
+            QStringList pventral_side = {"--любая боковая--", "спигелевой линии", "поясничная"};
+            ui->comboBox_subtype_pventral_hernia->addItems(pventral_side);
+        }
+        else
+        {
+            QStringList pventral_side = {"спигелевой линии", "поясничная"};
+            ui->comboBox_subtype_pventral_hernia->addItems(pventral_side);
+        }
      }
 }
 

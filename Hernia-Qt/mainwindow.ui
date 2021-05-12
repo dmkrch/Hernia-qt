@@ -39,7 +39,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -185,7 +185,7 @@
               <item>
                <widget class="QLabel" name="label_age_from">
                 <property name="text">
-                 <string>0</string>
+                 <string>1</string>
                 </property>
                </widget>
               </item>
@@ -205,7 +205,7 @@
               <item alignment="Qt::AlignRight">
                <widget class="QLabel" name="label_age_to">
                 <property name="text">
-                 <string>100</string>
+                 <string>120</string>
                 </property>
                </widget>
               </item>
@@ -274,7 +274,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>100</string>
+                 <string>200</string>
                 </property>
                </widget>
               </item>
@@ -480,9 +480,6 @@
              </widget>
             </item>
            </layout>
-          </item>
-          <item row="3" column="2" rowspan="3">
-           <widget class="QListWidget" name="listWidget_output"/>
           </item>
          </layout>
         </item>

@@ -9,6 +9,14 @@ PostVentralHerniaForm::PostVentralHerniaForm(QWidget *parent) :
     ui->setupUi(this);
 }
 
+void PostVentralHerniaForm::Set_Only_Conrete_Choice()
+{
+    ui->radioButton_any_l->setEnabled(false);
+    ui->radioButton_any_m->setEnabled(false);
+    ui->radioButton_any_r->setEnabled(false);
+    ui->radioButton_any_w->setEnabled(false);
+}
+
 PostVentralHerniaForm::~PostVentralHerniaForm()
 {
     delete ui;

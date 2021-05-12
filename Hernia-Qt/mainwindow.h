@@ -49,7 +49,6 @@ private slots:
     void on_pushButton_search_op_clicked();
     void on_pushButton_add_surgeon_clicked();
     void on_pushButton_delete_op_clicked();
-
     void on_pushButton_add_new_op_clicked();
 
 private:

@@ -19,8 +19,10 @@ public:
     QString Get_Title() { return op_title; }
     int Get_Rec_Days() { return recovering_days; }
     QString Get_Surgeon() { return surgeon; }
+    Diagnosis* Get_Diagnosis() { return diagnosis; }
 
     void Set_Sequela(Sequela* seq) { this->sequela = seq; }
+    void Set_Diagnosis(Diagnosis* d) { this->diagnosis = d; }
 
     ~Handled_Operation();
     
@@ -31,6 +33,7 @@ private:
     Sequela* sequela;
     QString op_title;
     int recovering_days;
+    Diagnosis* diagnosis;
 };
 
 

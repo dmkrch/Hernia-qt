@@ -68,10 +68,13 @@ MainWindow::MainWindow(QWidget *parent)
     // creating slider for days
     days_rSlider = new RangeSlider(Qt::Horizontal, RangeSlider::Option::DoubleHandles, this);
     ui->verticalLayout_4->addWidget(days_rSlider);
+    days_rSlider->SetMaximum(200);
 
     // creating slider for age
     age_rSlider = new RangeSlider(Qt::Horizontal, RangeSlider::Option::DoubleHandles, this);
     ui->verticalLayout_8->addWidget(age_rSlider);
+    age_rSlider->setMinimum(1);
+    age_rSlider->setMaximum(120);
 
     // connecting lower value change of date range slider
     connect(days_rSlider, &RangeSlider::lowerValueChanged,
@@ -298,7 +301,6 @@ void MainWindow::Set_Surgeons_Combobox()
     qry->exec();
     modal->setQuery(*qry);
     ui->comboBox_surgeons->setModel(modal);
-    qDebug() << modal->rowCount();
 }
 
 void MainWindow::Set_Surgeons_List()
@@ -310,7 +312,6 @@ void MainWindow::Set_Surgeons_List()
     qry->exec();
     modal->setQuery(*qry);
     ui->listView_surgeons->setModel(modal);
-    qDebug() << modal->rowCount();
 }
 
 void MainWindow::Set_Operations_List()
