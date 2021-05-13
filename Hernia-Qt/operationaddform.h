@@ -28,6 +28,7 @@ class OperationAddForm : public QDialog
 
 public:
     explicit OperationAddForm(QWidget *parent = nullptr);
+    void Set_Surgeons_List();
     ~OperationAddForm();
 
 signals:

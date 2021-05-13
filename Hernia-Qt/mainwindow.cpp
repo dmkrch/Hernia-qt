@@ -284,6 +284,7 @@ void MainWindow::on_pushButton_add_surgeon_clicked()
         // add to bd
         Set_Surgeons_List();
         Set_Surgeons_Combobox();
+        operationAddform->Set_Surgeons_List();
     }
 }
 

@@ -34,14 +34,7 @@ OperationAddForm::OperationAddForm(QWidget *parent) :
     // adding surgeons to surgeons_combobox from db
     ui->comboBox_surgeons->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_surgeons->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    QSqlQueryModel* modal = new QSqlQueryModel();
-    QSqlQuery* qry = new QSqlQuery(QSqlDatabase::database(db_name));
-
-    qry->prepare("select surg_name from surgeons;");
-    qry->exec();
-    modal->setQuery(*qry);
-    ui->comboBox_surgeons->setModel(modal);
+    this->Set_Surgeons_List();
 
 
     // setting sequence form
@@ -627,6 +620,94 @@ void OperationAddForm::on_pushButton_add_op_clicked()
             r_str = "r4";
             break;
         }
+
+        QSqlQuery* add_post_diagnosis_qry = new QSqlQuery(QSqlDatabase::database(db_name));
+
+        add_post_diagnosis_qry->prepare("INSERT INTO post_diagnosis(post_m, post_l, post_w, post_r) \
+                                        VALUES(:post_m, :post_l, :post_w, :post_r)");
+        add_post_diagnosis_qry->bindValue(":post_m", m_str);
+        add_post_diagnosis_qry->bindValue(":post_l", l_str);
+        add_post_diagnosis_qry->bindValue(":post_w", w_str);
+        add_post_diagnosis_qry->bindValue(":post_r", r_str);
+
+        if (add_post_diagnosis_qry->exec())
+            qDebug() << "success seq";
+
+        QSqlQuery* get_max_post_id = new QSqlQuery(QSqlDatabase::database(db_name));
+        get_max_post_id->prepare("SELECT max(post_id) from post_diagnosis");
+        get_max_post_id->exec();
+        get_max_post_id->next();
+
+        post_id = get_max_post_id->value(0).toInt();
+        QString post_id_str = QString::number(post_id);
+
+        // now we can set operation, because we created post diagnosis and know its id in post_id
+
+        // but before this, we need to check whether sequela is null or not
+         if (operation_to_add->Get_Sequela() == NULL)
+         {
+             // if sequela is null
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, post_id, diagn_title) VALUES(:date, :op_title, \
+                                    :surg_id, :rec_days, :pat_age, :pat_gender, :post_id, :diagn_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":post_id", post_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+
+
+             if (operation_add->exec())
+             {
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
+             }
+
+
+         }
+         else
+         {
+             // if sequela is not null
+             QString seq_type = operation_to_add->Get_Sequela()->Get_Type();
+             QString seq_title = operation_to_add->Get_Sequela()->Get_Title();
+
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, post_id , diagn_title, seq_type, seq_title) VALUES \
+                                    (:date, :op_title, :surg_id, :rec_days, :pat_age, :pat_gender, :post_id,\
+                                     :diagn_title, :seq_type, :seq_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":post_id", post_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+             operation_add->bindValue(":seq_type", seq_type);
+             operation_add->bindValue(":seq_title", seq_title);
+
+
+             if (operation_add->exec())
+             {
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
+             }
+         }
     }
 
     emit operation_added();
@@ -643,4 +724,16 @@ void OperationAddForm::on_checkBox_clicked(bool checked)
     {
         ui->pushButton_sequela->setEnabled(false);
     }
+}
+
+
+void OperationAddForm::Set_Surgeons_List()
+{
+    QSqlQueryModel* modal = new QSqlQueryModel();
+    QSqlQuery* qry = new QSqlQuery(QSqlDatabase::database(db_name));
+
+    qry->prepare("select surg_name from surgeons;");
+    qry->exec();
+    modal->setQuery(*qry);
+    ui->comboBox_surgeons->setModel(modal);
 }
