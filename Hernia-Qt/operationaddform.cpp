@@ -370,7 +370,11 @@ void OperationAddForm::on_pushButton_add_op_clicked()
 
              if (operation_add->exec())
              {
-                 qDebug() << "success";
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
              }
 
 
@@ -378,6 +382,36 @@ void OperationAddForm::on_pushButton_add_op_clicked()
          else
          {
              // if sequela is not null
+             QString seq_type = operation_to_add->Get_Sequela()->Get_Type();
+             QString seq_title = operation_to_add->Get_Sequela()->Get_Title();
+
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, ing_id, diagn_title, seq_type, seq_title) VALUES \
+                                    (:date, :op_title, :surg_id, :rec_days, :pat_age, :pat_gender, :ing_id,\
+                                     :diagn_title, :seq_type, :seq_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":ing_id", ing_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+             operation_add->bindValue(":seq_type", seq_type);
+             operation_add->bindValue(":seq_title", seq_title);
+
+
+             if (operation_add->exec())
+             {
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
+             }
          }
 
 
@@ -388,6 +422,136 @@ void OperationAddForm::on_pushButton_add_op_clicked()
         Primary_Ventral_Hernia_Types type = this->pventralHerniaform->Get_Hernia()->Get_Type();
         Primary_Ventral_Hernia_SubTypes subtitle = this->pventralHerniaform->Get_Hernia()->Get_Subtitle();
         Primary_Ventral_Hernia_Sizes size = this->pventralHerniaform->Get_Hernia()->Get_Size();
+
+        QString p_type;
+        switch(type)
+        {
+        case Primary_Ventral_Hernia_Types::SIDE:
+            p_type = "боковая";
+            break;
+        case Primary_Ventral_Hernia_Types::MIDDLE:
+            p_type = "срединная";
+            break;
+        }
+
+        QString p_subtitle;
+        switch(subtitle)
+        {
+        case Primary_Ventral_Hernia_SubTypes::EPIGASTRIC:
+            p_subtitle = "эпигистральная";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::UMBICIAL:
+            p_subtitle = "пупочная";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::SPIGEL:
+            p_subtitle = "спигелевой линии";
+            break;
+        case Primary_Ventral_Hernia_SubTypes::LUMBAR:
+            p_subtitle = "поясничная";
+            break;
+        }
+
+        QString p_size;
+        switch(size)
+        {
+        case Primary_Ventral_Hernia_Sizes::SMALL:
+            p_size = "малая";
+            break;
+        case Primary_Ventral_Hernia_Sizes::MEDIUM:
+            p_size = "средняя";
+            break;
+        case Primary_Ventral_Hernia_Sizes::LARGE:
+            p_size = "большая";
+            break;
+        }
+
+        QSqlQuery* add_pr_diagnosis_qry = new QSqlQuery(QSqlDatabase::database(db_name));
+
+        add_pr_diagnosis_qry->prepare("INSERT INTO pr_diagnosis(pr_type, pr_subtitle, pr_size) \
+                                        VALUES(:pr_type, :pr_subtitle, :pr_size)");
+        add_pr_diagnosis_qry->bindValue(":pr_type", p_type);
+        add_pr_diagnosis_qry->bindValue(":pr_subtitle", p_subtitle);
+        add_pr_diagnosis_qry->bindValue(":pr_size", p_size);
+
+
+        if (add_pr_diagnosis_qry->exec())
+            qDebug() << "success seq";
+
+        QSqlQuery* get_max_pr_id = new QSqlQuery(QSqlDatabase::database(db_name));
+        get_max_pr_id->prepare("SELECT max(pr_id) from pr_diagnosis");
+        get_max_pr_id->exec();
+        get_max_pr_id->next();
+
+        pr_id = get_max_pr_id->value(0).toInt();
+        QString pr_id_str = QString::number(pr_id);
+
+        // now we can set operation, because we created primary diagnosis and know its id in pr_id
+
+        // but before this, we need to check whether sequela is null or not
+         if (operation_to_add->Get_Sequela() == NULL)
+         {
+             // if sequela is null
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, pr_id, diagn_title) VALUES(:date, :op_title, \
+                                    :surg_id, :rec_days, :pat_age, :pat_gender, :pr_id, :diagn_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":pr_id", pr_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+
+
+             if (operation_add->exec())
+             {
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
+             }
+
+
+         }
+         else
+         {
+             // if sequela is not null
+             QString seq_type = operation_to_add->Get_Sequela()->Get_Type();
+             QString seq_title = operation_to_add->Get_Sequela()->Get_Title();
+
+             QSqlQuery* operation_add = new QSqlQuery(QSqlDatabase::database(db_name));
+
+             operation_add->prepare("INSERT INTO operations(op_date, op_title, surg_id, op_rec_days, \
+                                     pat_age, pat_gender, pr_id , diagn_title, seq_type, seq_title) VALUES \
+                                    (:date, :op_title, :surg_id, :rec_days, :pat_age, :pat_gender, :pr_id,\
+                                     :diagn_title, :seq_type, :seq_title);");
+
+             operation_add->bindValue(":date", date_str);
+             operation_add->bindValue(":op_title", op_title);
+             operation_add->bindValue(":surg_id", surg_id);
+             operation_add->bindValue(":rec_days", rec_days_str);
+             operation_add->bindValue(":pat_age", pat_age_str);
+             operation_add->bindValue(":pat_gender", gender_str);
+             operation_add->bindValue(":pr_id", pr_id_str);
+             operation_add->bindValue(":diagn_title", diagn_type);
+             operation_add->bindValue(":seq_type", seq_type);
+             operation_add->bindValue(":seq_title", seq_title);
+
+
+             if (operation_add->exec())
+             {
+                 QMessageBox::information(this, "Добавление операции", "Операция успешно добавлена");
+             }
+             else
+             {
+                 QMessageBox::warning(this, "Добавление операции", "Не удалось добавить операцию");
+             }
+         }
     }
     else if (diagn_type == "послеоперационная")
     {
@@ -395,9 +559,78 @@ void OperationAddForm::on_pushButton_add_op_clicked()
         Postoperative_Ventral_Hernia_M m = this->postVentralHerniaform->Get_Hernia()->Get_M();
         Postoperative_Ventral_Hernia_R r = this->postVentralHerniaform->Get_Hernia()->Get_R();
         Postoperative_Ventral_Hernia_W w = this->postVentralHerniaform->Get_Hernia()->Get_W();
+
+        QString l_str;
+        switch(l)
+        {
+        case Postoperative_Ventral_Hernia_L::L1:
+            l_str = "l1";
+            break;
+        case Postoperative_Ventral_Hernia_L::L2:
+            l_str = "l2";
+            break;
+        case Postoperative_Ventral_Hernia_L::L3:
+            l_str = "l3";
+            break;
+        case Postoperative_Ventral_Hernia_L::L4:
+            l_str = "l4";
+            break;
+        }
+
+        QString m_str;
+        switch(m)
+        {
+        case Postoperative_Ventral_Hernia_M::M1:
+            m_str = "m1";
+            break;
+        case Postoperative_Ventral_Hernia_M::M2:
+            m_str = "m2";
+            break;
+        case Postoperative_Ventral_Hernia_M::M3:
+            m_str = "m3";
+            break;
+        case Postoperative_Ventral_Hernia_M::M4:
+            m_str = "m4";
+            break;
+        case Postoperative_Ventral_Hernia_M::M5:
+            m_str = "m5";
+            break;
+        }
+
+        QString w_str;
+        switch(w)
+        {
+        case Postoperative_Ventral_Hernia_W::W1:
+            w_str = "w1";
+            break;
+        case Postoperative_Ventral_Hernia_W::W2:
+            w_str = "w2";
+            break;
+        case Postoperative_Ventral_Hernia_W::W3:
+            w_str = "w3";
+            break;
+        }
+
+        QString r_str;
+        switch(r)
+        {
+        case Postoperative_Ventral_Hernia_R::R1:
+            r_str = "r1";
+            break;
+        case Postoperative_Ventral_Hernia_R::R2:
+            r_str = "r2";
+            break;
+        case Postoperative_Ventral_Hernia_R::R3:
+            r_str = "r3";
+            break;
+        case Postoperative_Ventral_Hernia_R::R4:
+            r_str = "r4";
+            break;
+        }
     }
 
     emit operation_added();
+    this->close();
 }
 
 void OperationAddForm::on_checkBox_clicked(bool checked)
