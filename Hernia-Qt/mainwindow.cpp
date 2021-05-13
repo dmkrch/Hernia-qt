@@ -267,6 +267,58 @@ void MainWindow::on_pushButton_sequence_clicked()
 
 void MainWindow::on_pushButton_search_op_clicked()
 {
+    // checking sequela
+    if (operation_to_find->sequela == NULL && ui->checkBox->isChecked())
+    {
+        QMessageBox::warning(this, "Поиск операций", "Укажите осложнение");
+        return;
+    }
+
+    // checking gender
+    if (!ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
+    {
+        QMessageBox::warning(this, "Поиск операций", "Укажите пол");
+    }
+
+    // now everyting is fine and we can build our request to db
+
+    QDate date_from = ui->dateEdit_from->date();
+    QDate date_to = ui->dateEdit_to->date();
+
+    QString date_str_from = date_from.toString("yyyy-MM-dd");
+    QString date_str_to = date_to.toString("yyyy-MM-dd");
+
+    QString age_str_from = QString::number(this->age_rSlider->GetLowerValue());
+    QString age_str_to = QString::number(this->age_rSlider->GetUpperValue());
+
+    QString rec_days_from = QString::number(this->days_rSlider->GetLowerValue());
+    QString rec_days_to = QString::number(this->days_rSlider->GetUpperValue());
+
+    QString test;
+
+    QSqlQuery* search_qry = new QSqlQuery(db->m_db);
+    QString search_str = "SELECT \
+                            op_id, \
+                            op_date, \
+                            surg_name, \
+                            op_title, \
+                            pat_gender, \
+                            pat_age, \
+                            seq_type, \
+                            seq_title, \
+                            diagn_title, \
+                            op_rec_days \
+                          FROM operations \
+                          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
+                          WHERE 	(op_date BETWEEN '"+date_str_from+"' AND '"+date_str_to+"') AND \
+                                    (pat_age BETWEEN '"+age_str_from+"' AND '"+age_str_to+"') AND \
+                                    (op_rec_days BETWEEN '"+rec_days_from+"' AND '"+rec_days_to+"')";
+
+    search_qry->prepare(search_str);
+    if(search_qry->exec())
+    {
+        qDebug() << "asfdasfd";
+    }
 
 }
 
@@ -584,5 +636,17 @@ void MainWindow::on_checkBox_clicked(bool checked)
     else
     {
         ui->pushButton_sequence->setEnabled(false);
+    }
+}
+
+void MainWindow::on_checkBox_2_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->comboBox_surgeons->setEnabled(false);
+    }
+    else
+    {
+        ui->comboBox_surgeons->setEnabled(true);
     }
 }

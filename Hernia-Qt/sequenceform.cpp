@@ -41,13 +41,13 @@ void SequenceForm::set_seq_type(QString seq_type)
         if (!only_concrete)
         {
             QStringList intr_seq_names = {"--любое интрооперационное--", "кровотечение",
-                                      "перфорация полого органа", "конверсия в открытую"};
+                                      "перфорация пологого органа", "конверсия в открытую"};
             ui->comboBox_seq_name->clear();
             ui->comboBox_seq_name->addItems(intr_seq_names);
         }
         else
         {
-            QStringList intr_seq_names = {"кровотечение", "перфорация полого органа",
+            QStringList intr_seq_names = {"кровотечение", "перфорация пологого органа",
                                           "конверсия в открытую"};
             ui->comboBox_seq_name->clear();
             ui->comboBox_seq_name->addItems(intr_seq_names);
@@ -58,7 +58,7 @@ void SequenceForm::set_seq_type(QString seq_type)
         if (!only_concrete)
         {
             QStringList post_seq_names = {"--любое послеоперационное--", "внутрибрюшое кровотечение ",
-                                      "ранняя спаечная непроходимость", "перитонит", "повреждение полого органа",
+                                      "ранняя спаечная непроходимость", "перитонит", "повреждение пологого органа",
                                       "нагноение раны", "серома послеоперационной раны", "гематома раны ",
                                       "ранний рецидив", "поздний рецидив", "лигатурный свищ"};
             ui->comboBox_seq_name->clear();
@@ -67,7 +67,7 @@ void SequenceForm::set_seq_type(QString seq_type)
         else
         {
             QStringList post_seq_names = {"внутрибрюшое кровотечение ",
-                                      "ранняя спаечная непроходимость", "перитонит", "повреждение полого органа",
+                                      "ранняя спаечная непроходимость", "перитонит", "повреждение пологого органа",
                                       "нагноение раны", "серома послеоперационной раны", "гематома раны ",
                                       "ранний рецидив", "поздний рецидив", "лигатурный свищ"};
             ui->comboBox_seq_name->clear();
