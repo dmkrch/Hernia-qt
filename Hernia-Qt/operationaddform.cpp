@@ -737,13 +737,3 @@ void OperationAddForm::Set_Surgeons_List()
     modal->setQuery(*qry);
     ui->comboBox_surgeons->setModel(modal);
 }
-
-void OperationAddForm::on_checkBox_2_clicked(bool checked)
-{
-
-    if(checked)
-        ui->comboBox_surgeons->setEnabled(false);
-    else
-        ui->comboBox_surgeons->setEnabled(true);
-
-}

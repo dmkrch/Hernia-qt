@@ -677,16 +677,18 @@ void MainWindow::on_pushButton_search_op_clicked()
 
             if (this->operation_to_find->sequela->Get_Title() == "--любое интрооперационное--")
             {
-
+                QString subtitle = " AND (seq_type='"+type+"')";
+                search_str += subtitle;
             }
             else if (this->operation_to_find->sequela->Get_Title() == "--любое послеоперационное--")
             {
-
+                QString subtitle = " AND (seq_type='"+type+"')";
+                search_str += subtitle;
             }
             else
             {
                 QString title = operation_to_find->sequela->Get_Title();
-                search_str += " AND (seq_subtitle == '"+title+"')";
+                search_str += " AND (seq_title='"+title+"')";
             }
         }
         else

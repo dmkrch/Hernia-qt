@@ -98,13 +98,6 @@
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignHCenter">
-        <widget class="QCheckBox" name="checkBox_2">
-         <property name="text">
-          <string>все врачи</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QComboBox" name="comboBox_surgeons"/>
        </item>

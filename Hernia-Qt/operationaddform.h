@@ -45,12 +45,8 @@ private slots:
     void inguinal_form_closed();
     void primary_ventral_form_closed();
     void post_ventral_form_closed();
-
     void on_pushButton_add_op_clicked();
-
     void on_checkBox_clicked(bool checked);
-
-    void on_checkBox_2_clicked(bool checked);
 
 private:
     Ui::OperationAddForm *ui;
