@@ -30,7 +30,7 @@ void SequenceForm::Set_Only_Concrete()
 
 void SequenceForm::set_seq_type(QString seq_type)
 {
-    if (seq_type == "не указано")
+    if (seq_type == "----любое осложнение----")
     {
         ui->comboBox_seq_name->clear();
     }

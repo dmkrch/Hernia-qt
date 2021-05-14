@@ -264,64 +264,6 @@ void MainWindow::on_pushButton_sequence_clicked()
     sequenceform->show();
 }
 
-
-void MainWindow::on_pushButton_search_op_clicked()
-{
-    // checking sequela
-    if (operation_to_find->sequela == NULL && ui->checkBox->isChecked())
-    {
-        QMessageBox::warning(this, "Поиск операций", "Укажите осложнение");
-        return;
-    }
-
-    // checking gender
-    if (!ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
-    {
-        QMessageBox::warning(this, "Поиск операций", "Укажите пол");
-    }
-
-    // now everyting is fine and we can build our request to db
-
-    QDate date_from = ui->dateEdit_from->date();
-    QDate date_to = ui->dateEdit_to->date();
-
-    QString date_str_from = date_from.toString("yyyy-MM-dd");
-    QString date_str_to = date_to.toString("yyyy-MM-dd");
-
-    QString age_str_from = QString::number(this->age_rSlider->GetLowerValue());
-    QString age_str_to = QString::number(this->age_rSlider->GetUpperValue());
-
-    QString rec_days_from = QString::number(this->days_rSlider->GetLowerValue());
-    QString rec_days_to = QString::number(this->days_rSlider->GetUpperValue());
-
-    QString test;
-
-    QSqlQuery* search_qry = new QSqlQuery(db->m_db);
-    QString search_str = "SELECT \
-                            op_id, \
-                            op_date, \
-                            surg_name, \
-                            op_title, \
-                            pat_gender, \
-                            pat_age, \
-                            seq_type, \
-                            seq_title, \
-                            diagn_title, \
-                            op_rec_days \
-                          FROM operations \
-                          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
-                          WHERE 	(op_date BETWEEN '"+date_str_from+"' AND '"+date_str_to+"') AND \
-                                    (pat_age BETWEEN '"+age_str_from+"' AND '"+age_str_to+"') AND \
-                                    (op_rec_days BETWEEN '"+rec_days_from+"' AND '"+rec_days_to+"')";
-
-    search_qry->prepare(search_str);
-    if(search_qry->exec())
-    {
-        qDebug() << "asfdasfd";
-    }
-
-}
-
 void MainWindow::on_pushButton_add_surgeon_clicked()
 {
     // here i need to add surgeon to db
@@ -649,4 +591,120 @@ void MainWindow::on_checkBox_2_clicked(bool checked)
     {
         ui->comboBox_surgeons->setEnabled(true);
     }
+}
+
+
+void MainWindow::on_pushButton_search_op_clicked()
+{
+    // checking sequela
+    if (operation_to_find->sequela == NULL && ui->checkBox->isChecked())
+    {
+        QMessageBox::warning(this, "Поиск операций", "Укажите осложнение");
+        return;
+    }
+
+    // checking gender
+    if (!ui->checkBox_male->isChecked() && !ui->checkBox_female->isChecked())
+    {
+        QMessageBox::warning(this, "Поиск операций", "Укажите пол");
+    }
+
+    // now everyting is fine and we can build our request to db
+
+    QDate date_from = ui->dateEdit_from->date();
+    QDate date_to = ui->dateEdit_to->date();
+
+    QString date_str_from = date_from.toString("yyyy-MM-dd");
+    QString date_str_to = date_to.toString("yyyy-MM-dd");
+
+    QString age_str_from = QString::number(this->age_rSlider->GetLowerValue());
+    QString age_str_to = QString::number(this->age_rSlider->GetUpperValue());
+
+    QString rec_days_from = QString::number(this->days_rSlider->GetLowerValue());
+    QString rec_days_to = QString::number(this->days_rSlider->GetUpperValue());
+
+    QString test;
+
+    QSqlQuery* search_qry = new QSqlQuery(db->m_db);
+    QString search_str = "SELECT \
+                               COUNT (*) \
+                          FROM operations \
+                          INNER JOIN surgeons on surgeons.surg_id=operations.surg_id \
+                          WHERE 	(op_date BETWEEN '"+date_str_from+"' AND '"+date_str_to+"') AND \
+                                    (pat_age BETWEEN '"+age_str_from+"' AND '"+age_str_to+"') AND \
+                                    (op_rec_days BETWEEN '"+rec_days_from+"' AND '"+rec_days_to+"')";
+
+    if (!ui->checkBox_2->isChecked())
+    {
+        QString surg_name = ui->comboBox_surgeons->currentText();
+        QString additional_filter = " AND (surg_name='"+surg_name+"')";
+
+        search_str += additional_filter;
+    }
+
+    if (ui->comboBox_op_names->currentText() != "----все операции----")
+    {
+        QString op_title = ui->comboBox_op_names->currentText();
+        QString additional_filter = " AND (op_title='"+op_title+"')";
+
+        search_str += additional_filter;
+    }
+
+    if (!(ui->checkBox_female->isChecked() && ui->checkBox_male->isChecked()))
+    {
+        QString gender;
+        if (ui->checkBox_male->isChecked())
+            gender = "м";
+        else if (ui->checkBox_female->isChecked())
+            gender = "ж";
+
+        QString additional_filter = " AND (pat_gender='"+gender+"')";
+
+        search_str += additional_filter;
+    }
+
+    if (!ui->checkBox->isChecked())
+    {
+        QString additional_filter = " AND (seq_type IS NULL)";
+        search_str += additional_filter;
+    }
+    else
+    {
+        // check box is not checked - it means sequela is setted
+        if (this->operation_to_find->sequela->Get_Type() != "----любое осложнение----")
+        {
+            QString type = operation_to_find->sequela->Get_Type();
+
+            if (this->operation_to_find->sequela->Get_Title() == "--любое интрооперационное--")
+            {
+
+            }
+            else if (this->operation_to_find->sequela->Get_Title() == "--любое послеоперационное--")
+            {
+
+            }
+            else
+            {
+                QString title = operation_to_find->sequela->Get_Title();
+                search_str += " AND (seq_subtitle == '"+title+"')";
+            }
+        }
+        else
+        {
+            QString additional_filter = " AND (seq_type IS NOT NULL)";
+            search_str += additional_filter;
+        }
+    }
+
+
+
+    search_qry->prepare(search_str);
+    if(search_qry->exec())
+    {
+        search_qry->next();
+
+        QString op_count = search_qry->value(0).toString();
+        ui->label_4->setText(op_count);
+    }
+
 }
